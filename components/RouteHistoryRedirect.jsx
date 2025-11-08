@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { trackSectionView, trackEvent } from 'utils/trackingUtils';
 import CheckDevice from './utils/CheckDevice';
+import clsx from 'clsx';
 
 export function useRouteHistory() {
     const [referrer, setReferrer] = useState('/pokedex');
@@ -55,11 +56,11 @@ export function useRouteHistory() {
         }
     }, []);
 
-    return { referrer, isLoading };
+    return { referrer, isLoading, isMobile };
 }
 
 export function BackButton() {
-    const { referrer, isLoading } = useRouteHistory();
+    const { referrer, isLoading, isMobile } = useRouteHistory();
     console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ referrer:', referrer);
 
     if (isLoading) {
@@ -86,7 +87,7 @@ export function BackButton() {
 }
 
 export default function RouteHistoryRedirect({ pokemonName }) {
-    const { referrer, isLoading } = useRouteHistory();
+    const { referrer, isLoading, isMobile } = useRouteHistory();
 
     useEffect(() => {
         if (!isLoading && pokemonName) {
@@ -135,7 +136,10 @@ export default function RouteHistoryRedirect({ pokemonName }) {
         >
             <div className="w-full flex flex-col items-center justify-center h-screen gap-4">
                 <p className="text-white text-xl">Pokémon not found</p>
-                <Link href={referrer} className="text-primary underline">
+                <Link
+                    href={referrer}
+                    className={clsx('text-primary underline', isMobile ? 'text-2xs text-center' : 'text-xl')}
+                >
                     {linkText}
                 </Link>
             </div>

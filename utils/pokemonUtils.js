@@ -50,7 +50,12 @@ export const getPokemonData = async (pokemonName) => {
         ]);
 
         if (!pokemonRes.ok || !speciesRes.ok) {
-            throw new Error('Failed to fetch pokemon data');
+            console.warn('⚠️ Failed to fetch pokemon data', {
+                pokemonStatus: pokemonRes.status,
+                speciesStatus: speciesRes.status,
+                name: pokemonName
+            });
+            return null;
         }
 
         const pokemon = await pokemonRes.json();
