@@ -46,14 +46,14 @@ export default function MobileLandingPage() {
                 slidesPerView={1}
                 allowTouchMove={true}
                 resistance={true}
-                shortSwipes={false}
-                longSwipes={true}
-                // mousewheel={{
-                //     forceToAxis: true,
-                //     releaseOnEdges: true,
-                //     sensitivity: 1.5,
-                //     thresholdDelta: 25
-                // }}
+                // shortSwipes={false}
+                // longSwipes={true}
+                mousewheel={{
+                    forceToAxis: true,
+                    releaseOnEdges: true,
+                    sensitivity: 1.5,
+                    thresholdDelta: 25
+                }}
                 modules={[Pagination, Mousewheel]}
             >
                 {sectionComponents.map(({ component: SectionComponent, index }) => (
