@@ -1,4 +1,3 @@
-
 import CheckDevice from 'components/utils/CheckDevice';
 import { useEffect, useState } from 'react';
 import HomeSection from './Sections/HomeSection';
@@ -49,12 +48,12 @@ export default function MobileLandingPage() {
                 resistance={true}
                 shortSwipes={false}
                 longSwipes={true}
-                mousewheel={{
-                    forceToAxis: true,
-                    releaseOnEdges: true,
-                    sensitivity: 1.5,
-                    thresholdDelta: 25
-                }}
+                // mousewheel={{
+                //     forceToAxis: true,
+                //     releaseOnEdges: true,
+                //     sensitivity: 1.5,
+                //     thresholdDelta: 25
+                // }}
                 modules={[Pagination, Mousewheel]}
             >
                 {sectionComponents.map(({ component: SectionComponent, index }) => (
