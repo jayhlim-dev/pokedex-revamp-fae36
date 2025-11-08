@@ -27,7 +27,7 @@ import clsx from 'clsx';
 export default function PokemonGrid({ initialEntries, region, isShowModal, setIsShowModal, modalMode }) {
     useEffect(() => {
         trackSectionView('Pokedex Region', null, { region: region });
-    }, []);
+    }, [region]);
 
     // State management
     const [allPokemon, setAllPokemon] = useState([]);

@@ -45,7 +45,7 @@ export default function PokemonFilter({
             setPendingSelectedTypes(currentTypes);
             setPendingSortBy(currentSort);
         }
-    }, [isMobile, isShowModal, propSelectedTypes, propSortBy]);
+    }, [isMobile, isShowModal, propSelectedTypes, propSortBy, selectedTypes, sortBy]);
 
     // Get all available Pokemon types
     const allTypes = Object.keys(POKEMON_TYPE_COLORS);

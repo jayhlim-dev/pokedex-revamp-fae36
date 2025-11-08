@@ -17,7 +17,7 @@ export default function AboutUsSection({ index = 4 }) {
 
     useEffect(() => {
         trackSectionView('About Us', index);
-    }, []);
+    }, [index]);
 
     return (
         <div className="relative capitalize bg-black">

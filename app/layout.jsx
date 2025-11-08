@@ -2,6 +2,13 @@ import '../styles/globals.css';
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
 import Script from 'next/script';
+import { Press_Start_2P } from 'next/font/google';
+
+const pressStart = Press_Start_2P({
+    weight: '400',
+    subsets: ['latin'],
+    display: 'swap'
+});
 
 export const metadata = {
     title: {
@@ -28,13 +35,9 @@ export default function RootLayout({ children }) {
                     `}
                 </Script>
 
-                {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}
-                <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-
                 <link rel="icon" href="/favicon.svg" sizes="any" />
             </head>
-            <body className="antialiased text-white bg-blue-900 font-sans">
+            <body className={`${pressStart.className} antialiased text-white bg-blue-900 font-sans`}>
                 <div className="flex flex-col min-h-screen bg-noise">
                     <div className="flex flex-col w-full mx-auto grow">
                         {/* <Header /> */}

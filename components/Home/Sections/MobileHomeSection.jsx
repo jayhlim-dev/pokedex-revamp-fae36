@@ -9,7 +9,7 @@ export default function MobileHomeSection({ index = 0, userDevice }) {
     const router = useRouter();
     useEffect(() => {
         trackSectionView('Home', index);
-    }, []);
+    }, [index]);
 
     const section = {
         title: 'PokeHex',

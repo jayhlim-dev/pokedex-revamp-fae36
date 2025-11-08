@@ -37,7 +37,7 @@ export default function PopularMapSection({ index = 2 }) {
 
     useEffect(() => {
         trackSectionView('Popular Map', index);
-    }, []);
+    }, [index]);
 
     return (
         <div className="relative capitalize">

@@ -15,7 +15,7 @@ export default function MobilePopularPokemonSection({ index = 3 }) {
 
     useEffect(() => {
         trackSectionView('Popular Pokemon', index);
-    }, []);
+    }, [index]);
 
     const popularPokemon = [
         {

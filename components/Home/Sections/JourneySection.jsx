@@ -17,7 +17,7 @@ export default function JourneySection({ index = 1 }) {
     // Track page view when component mounts
     useEffect(() => {
         trackSectionView('Journey', index);
-    }, []);
+    }, [index]);
 
     return (
         <div className="relative capitalize">
