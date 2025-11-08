@@ -1,4 +1,4 @@
-import { uniqueNamesGenerator, adjectives, animals, NumberDictionary } from 'unique-names-generator';
+// Utility functions for PokeHex application
 
 /*
 Get the actual size of a resource downloaded by the browser (e.g. an image) in bytes.
@@ -14,24 +14,3 @@ export function getResourceSize(url) {
         return undefined;
     }
 }
-
-// Note: this only works on the server side
-export function getNetlifyContext() {
-    return process.env.CONTEXT;
-}
-
-export function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-const uniqueNamesConfig = {
-    dictionaries: [adjectives, animals],
-    separator: '-',
-    length: 2
-};
-
-export function uniqueName() {
-    return uniqueNamesGenerator(uniqueNamesConfig) + "-" + randomInt(100, 999);
-}
-
-export const uploadDisabled = process.env.NEXT_PUBLIC_DISABLE_UPLOADS?.toLowerCase() === "true";
