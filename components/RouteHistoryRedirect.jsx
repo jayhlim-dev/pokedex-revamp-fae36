@@ -19,7 +19,7 @@ export function useRouteHistory() {
             const storedReferrer = sessionStorage.getItem('pokemonReferrer');
 
             if (storedReferrer) {
-                console.log('🚀 Found stored referrer:', storedReferrer);
+                // console.log('🚀 Found stored referrer:', storedReferrer);
                 setReferrer(storedReferrer);
                 setIsLoading(false);
                 return;
@@ -27,13 +27,13 @@ export function useRouteHistory() {
 
             // Fallback to document.referrer
             const documentReferrer = document.referrer;
-            console.log('🚀 Document referrer:', documentReferrer);
+            // console.log('🚀 Document referrer:', documentReferrer);
 
             if (documentReferrer) {
                 try {
                     const referrerUrl = new URL(documentReferrer);
                     const referrerPath = referrerUrl.pathname;
-                    console.log('🚀 Referrer path:', referrerPath);
+                    // console.log('🚀 Referrer path:', referrerPath);
 
                     // Check if it came from a pokedex location (e.g., /pokedex/kanto, /pokedex/national, etc.)
                     if (referrerPath.startsWith('/pokedex/') && referrerPath !== '/pokedex') {
@@ -44,7 +44,7 @@ export function useRouteHistory() {
                         setReferrer('/pokedex');
                     }
                 } catch (error) {
-                    console.error('Error parsing referrer URL:', error);
+                    // console.error('Error parsing referrer URL:', error);
                     setReferrer('/pokedex');
                 }
             } else {
@@ -61,7 +61,6 @@ export function useRouteHistory() {
 
 export function BackButton() {
     const { referrer, isLoading, isMobile } = useRouteHistory();
-    console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ referrer:', referrer);
 
     if (isLoading) {
         return (

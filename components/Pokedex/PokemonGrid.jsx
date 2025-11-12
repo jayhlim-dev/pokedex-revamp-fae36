@@ -24,7 +24,8 @@ import clsx from 'clsx';
  * - Sorting by Pokedex number or name
  * - Two-tier caching (memory + localStorage)
  */
-export default function PokemonGrid({ initialEntries, region, isShowModal, setIsShowModal, modalMode }) {
+export default function PokemonGrid({ initialEntries, region, isShowModal, setIsShowModal, modalMode, userDevice }) {
+    console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ userDevice 2:', userDevice);
     useEffect(() => {
         trackSectionView('Pokedex Region', null, { region: region });
     }, [region]);
@@ -36,8 +37,6 @@ export default function PokemonGrid({ initialEntries, region, isShowModal, setIs
     const [isFiltering, setIsFiltering] = useState(false);
     const [cacheStats, setCacheStats] = useState({ hits: 0, misses: 0 });
     const [cachedCount, setCachedCount] = useState(0);
-
-    const userDevice = CheckDevice();
 
     // Filter and sort state
     const [selectedTypes, setSelectedTypes] = useState([]);
@@ -67,9 +66,9 @@ export default function PokemonGrid({ initialEntries, region, isShowModal, setIs
 
         const filteredCount = totalPokemon - filtered.length;
         if (filteredCount > 0) {
-            console.log(
-                `🚫 Filtered out ${filteredCount} Pokemon with incomplete data (${filtered.length} valid Pokemon remaining)`
-            );
+            // console.log(
+            //     `🚫 Filtered out ${filteredCount} Pokemon with incomplete data (${filtered.length} valid Pokemon remaining)`
+            // );
         }
 
         // Step 2: Apply type filters
@@ -284,6 +283,7 @@ export default function PokemonGrid({ initialEntries, region, isShowModal, setIs
     };
 
     const isMobile = userDevice && userDevice.includes('mobile');
+
     return (
         <div className="w-full flex gap-6 h-[-webkit-fill-available] justify-center">
             {/* Cache Statistics */}
@@ -308,20 +308,38 @@ export default function PokemonGrid({ initialEntries, region, isShowModal, setIs
                     'w-full max-h-[81vh] overflow-y-auto h-[-webkit-fill-available] scrollbar-hide relative',
                     userDevice === 'desktop'
                         ? 'flex flex-wrap justify-start items-start pl-5 max-w-[70vw] gap-6'
-                        : !isFiltering && 'grid grid-cols-2 gap-4 px-4 max-h-[78vh]'
+                        : !isFiltering && allPokemon.length > 0 && 'grid grid-cols-2 gap-4 px-4 max-h-[78vh]'
                 )}
             >
                 {((isLoading || allPokemon.length === 0) && userDevice) === 'desktop' ? (
-                    <div className={clsx("flex flex-col items-center justify-center w-full h-full min-h-[400px] text-white/70", isMobile ? '!h-[70%]' : '')}>
+                    <div
+                        className={clsx(
+                            'flex flex-col items-center justify-center w-full h-full min-h-[400px] text-white/70',
+                            isMobile ? '!h-[70%]' : ''
+                        )}
+                    >
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/50 mb-4"></div>
-                        <p className={clsx("text-xl font-semibold mb-2", isMobile ? '!text-sm' : '')}>Loading Pokemon...</p>
-                        <p className={clsx("text-sm text-white/50", isMobile ? '!text-xs text-center' : '')}>Loading first 100 Pokemon...</p>
+                        <p className={clsx('text-xl font-semibold mb-2', isMobile ? '!text-sm' : '')}>
+                            Loading Pokemon...
+                        </p>
+                        <p className={clsx('text-sm text-white/50', isMobile ? '!text-xs text-center' : '')}>
+                            Loading first 100 Pokemon...
+                        </p>
                     </div>
                 ) : isFiltering ? (
-                    <div className={clsx("flex flex-col items-center justify-center w-full h-full min-h-[400px] text-white/70", isMobile ? '!h-[70%]' : '')}>
+                    <div
+                        className={clsx(
+                            'flex flex-col items-center justify-center w-full h-full min-h-[400px] text-white/70',
+                            isMobile ? '!h-[70%]' : ''
+                        )}
+                    >
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/50 mb-4"></div>
-                        <p className={clsx("text-xl font-semibold mb-2", isMobile ? '!text-sm' : '')}>Filtering Pokemon...</p>
-                        <p className={clsx("text-sm text-white/50", isMobile ? '!text-xs text-center' : '')}>Please wait while we filter the results</p>
+                        <p className={clsx('text-xl font-semibold mb-2', isMobile ? '!text-sm' : '')}>
+                            Filtering Pokemon...
+                        </p>
+                        <p className={clsx('text-sm text-white/50', isMobile ? '!text-xs text-center' : '')}>
+                            Please wait while we filter the results
+                        </p>
                     </div>
                 ) : filteredAndSortedPokemon.length > 0 ? (
                     <>
@@ -341,7 +359,12 @@ export default function PokemonGrid({ initialEntries, region, isShowModal, setIs
                         {/* )} */}
                     </>
                 ) : (
-                    <div className={clsx("flex flex-col items-center justify-center w-full h-full min-h-[400px] text-white/70", isMobile ? '!h-[70%]' : '')}>
+                    <div
+                        className={clsx(
+                            'flex flex-col items-center justify-center w-full h-full min-h-[400px] text-white/70',
+                            isMobile ? '!h-[70%]' : ''
+                        )}
+                    >
                         <svg
                             className="w-24 h-24 mb-4 opacity-50"
                             fill="none"
@@ -355,8 +378,12 @@ export default function PokemonGrid({ initialEntries, region, isShowModal, setIs
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                             />
                         </svg>
-                        <p className={clsx("text-xl font-semibold mb-2", isMobile ? '!text-sm' : '')}>No Pokemon Found</p>
-                        <p className={clsx("text-sm text-white/50", isMobile ? '!text-xs text-center' : '')}>Try selecting different types or clear filters</p>
+                        <p className={clsx('text-xl font-semibold mb-2', isMobile ? '!text-sm' : '')}>
+                            No Pokemon Found
+                        </p>
+                        <p className={clsx('text-sm text-white/50', isMobile ? '!text-xs text-center' : '')}>
+                            Try selecting different types or clear filters
+                        </p>
                     </div>
                 )}
             </div>

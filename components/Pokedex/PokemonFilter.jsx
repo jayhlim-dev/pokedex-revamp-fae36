@@ -5,6 +5,7 @@ import { POKEMON_TYPE_COLORS, getPokemonTypeColor } from 'constants/pokemonTypes
 import PokemonSearch from './PokemonSearch';
 import { trackPokedexFilter } from 'utils/trackingUtils';
 import PopUpModal from 'components/utils/PopUpModal';
+import Link from 'next/link';
 
 /**
  * PokemonFilter Component
@@ -26,7 +27,7 @@ export default function PokemonFilter({
     selectedTypes: propSelectedTypes,
     sortBy: propSortBy
 }) {
-    console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ isShowModal:', isShowModal);
+    // console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ isShowModal:', isShowModal);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [sortBy, setSortBy] = useState('number'); // 'number', 'name-asc', 'name-desc'
 
@@ -136,7 +137,7 @@ export default function PokemonFilter({
     };
 
     if (isMobile) {
-        console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ isShowModal2:', isShowModal);
+        // console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ isShowModal2:', isShowModal);
         if (!isShowModal) {
             return null;
         }
@@ -146,112 +147,137 @@ export default function PokemonFilter({
                 <PopUpModal
                     isShowModal={isShowModal}
                     setIsShowModal={setIsShowModal}
-                    actionButton={true}
+                    actionButton={modalMode === 'burger' ? false : true}
                     bodyHeight="fit-content"
                     modalMode={modalMode}
                     bgTransparent={true}
                     onApply={handleApply}
                 >
-                    <div className="flex flex-col gap-5 justify-center items-center w-full py-6 pt-12">
-                        {/* Header with mode indicator */}
-                        <div className="w-full flex flex-col items-start justify-center gap-3 mb-2">
-                            <div className="w-full flex items-center justify-between">
-                                <div
-                                    className="text-white text-xs font-bold capitalize w-full"
-                                    style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)' }}
-                                >
-                                    {modalMode === 'filter' ? 'Filter by Type' : 'Sort Pokemon'}
-                                </div>
-                                {/* Clear All Button */}
-                                {pendingSelectedTypes.length > 0 && (
-                                    <div className="whitespace-nowrap flex justify-end items-center">
-                                        <button
-                                            onClick={handleClearFilters}
-                                            className="text-3xs text-[#74C2FF] transition-colors"
+                    {modalMode === 'burger' ? (
+                        <div className="flex flex-col gap-5 justify-center items-center py-20 text-md ">
+                            <Link
+                                href="/"
+                                onClick={() => trackButtonClick('Home Link', '/', 'Pokedex')}
+                                className="no-underline"
+                            >
+                                <div className="text-white font-bold">Home</div>
+                            </Link>
+                            <Link
+                                href="/pokedex"
+                                onClick={() => trackButtonClick('Pokedex Link', '/pokedex', 'Pokedex')}
+                                className="no-underline"
+                            >
+                                <div className="text-whitefont-bold">Pokedex</div>
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="flex flex-col gap-5 justify-center items-center w-full py-6 pt-12">
+                                {/* Header with mode indicator */}
+                                <div className="w-full flex flex-col items-start justify-center gap-3 mb-2">
+                                    <div className="w-full flex items-center justify-between">
+                                        <div
+                                            className="text-white text-xs font-bold capitalize w-full"
+                                            style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)' }}
                                         >
-                                            Clear All
-                                        </button>
+                                            {modalMode === 'filter' ? 'Filter by Type' : 'Sort Pokemon'}
+                                        </div>
+                                        {/* Clear All Button */}
+                                        {pendingSelectedTypes.length > 0 && (
+                                            <div className="whitespace-nowrap flex justify-end items-center">
+                                                <button
+                                                    onClick={handleClearFilters}
+                                                    className="text-3xs text-[#74C2FF] transition-colors"
+                                                >
+                                                    Clear All
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="h-[2px] rounded-full flex w-[50%] bg-[#FFFCE9]/30"></div>
+                                </div>
+
+                                {modalMode === 'filter' ? (
+                                    /* Filter Mode - Type Selection */
+                                    <div className="w-full flex flex-col items-start justify-center gap-4">
+                                        {/* Type Checkboxes Grid */}
+                                        <div className="grid grid-cols-2 gap-2 justify-between items-center w-full">
+                                            {allTypes.map((type) => (
+                                                <label
+                                                    key={type}
+                                                    className={`flex items-center gap-3 px-3 py-2 outline-white cursor-pointer transition-all rounded-xl text-3xs ${
+                                                        pendingSelectedTypes.includes(type)
+                                                            ? 'bg-white/10'
+                                                            : 'hover:bg-white/5'
+                                                    }`}
+                                                >
+                                                    <div className="relative">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={pendingSelectedTypes.includes(type)}
+                                                            onChange={() => handleTypeToggle(type)}
+                                                            className="w-5 h-5 cursor-pointer bg-transparent border-2 border-white rounded-sm focus:ring-white focus:ring-2 appearance-none hover:border-white/60 transition-colors"
+                                                        />
+                                                        {pendingSelectedTypes.includes(type) && (
+                                                            <div className="absolute top-0 left-0 w-5 h-5 flex items-center justify-center pointer-events-none">
+                                                                <svg
+                                                                    className="w-4 h-4 text-white"
+                                                                    fill="currentColor"
+                                                                    viewBox="0 0 20 20"
+                                                                >
+                                                                    <path
+                                                                        fillRule="evenodd"
+                                                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                        clipRule="evenodd"
+                                                                    />
+                                                                </svg>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <span className="text-white text-2xs font-medium capitalize">
+                                                        {type}
+                                                    </span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    /* Sort Mode - Sorting Options with Radio Buttons */
+                                    <div className="w-full flex flex-col items-start justify-center gap-3">
+                                        {[
+                                            { value: 'number', label: 'Pokedex Number' },
+                                            { value: 'name-asc', label: 'Pokemon Name A-Z' },
+                                            { value: 'name-desc', label: 'Pokemon Name Z-A' }
+                                        ].map((option) => (
+                                            <label
+                                                key={option.value}
+                                                className={`flex items-center gap-3 px-3 py-2.5 w-full cursor-pointer transition-all rounded-xl ${
+                                                    pendingSortBy === option.value ? 'bg-white/10' : 'hover:bg-white/5'
+                                                }`}
+                                            >
+                                                <div className="relative">
+                                                    <input
+                                                        type="radio"
+                                                        name="sort-option"
+                                                        value={option.value}
+                                                        checked={pendingSortBy === option.value}
+                                                        onChange={(e) => handleSortChange(e.target.value)}
+                                                        className="w-5 h-5 cursor-pointer bg-transparent border-2 border-white rounded-full focus:ring-white focus:ring-2 appearance-none hover:border-white/60 transition-colors"
+                                                    />
+                                                    {pendingSortBy === option.value && (
+                                                        <div className="absolute top-0 left-0 w-5 h-5 flex items-center justify-center pointer-events-none">
+                                                            <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <span className="text-white text-sm font-medium">{option.label}</span>
+                                            </label>
+                                        ))}
                                     </div>
                                 )}
                             </div>
-                            <div className="h-[2px] rounded-full flex w-[50%] bg-[#FFFCE9]/30"></div>
-                        </div>
-
-                        {modalMode === 'filter' ? (
-                            /* Filter Mode - Type Selection */
-                            <div className="w-full flex flex-col items-start justify-center gap-4">
-                                {/* Type Checkboxes Grid */}
-                                <div className="grid grid-cols-2 gap-2 justify-between items-center w-full">
-                                    {allTypes.map((type) => (
-                                        <label
-                                            key={type}
-                                            className={`flex items-center gap-3 px-3 py-2 outline-white cursor-pointer transition-all rounded-xl text-3xs ${
-                                                pendingSelectedTypes.includes(type) ? 'bg-white/10' : 'hover:bg-white/5'
-                                            }`}
-                                        >
-                                            <div className="relative">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={pendingSelectedTypes.includes(type)}
-                                                    onChange={() => handleTypeToggle(type)}
-                                                    className="w-5 h-5 cursor-pointer bg-transparent border-2 border-white rounded-sm focus:ring-white focus:ring-2 appearance-none hover:border-white/60 transition-colors"
-                                                />
-                                                {pendingSelectedTypes.includes(type) && (
-                                                    <div className="absolute top-0 left-0 w-5 h-5 flex items-center justify-center pointer-events-none">
-                                                        <svg
-                                                            className="w-4 h-4 text-white"
-                                                            fill="currentColor"
-                                                            viewBox="0 0 20 20"
-                                                        >
-                                                            <path
-                                                                fillRule="evenodd"
-                                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                                clipRule="evenodd"
-                                                            />
-                                                        </svg>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <span className="text-white text-2xs font-medium capitalize">{type}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : (
-                            /* Sort Mode - Sorting Options with Radio Buttons */
-                            <div className="w-full flex flex-col items-start justify-center gap-3">
-                                {[
-                                    { value: 'number', label: 'Pokedex Number' },
-                                    { value: 'name-asc', label: 'Pokemon Name A-Z' },
-                                    { value: 'name-desc', label: 'Pokemon Name Z-A' }
-                                ].map((option) => (
-                                    <label
-                                        key={option.value}
-                                        className={`flex items-center gap-3 px-3 py-2.5 w-full cursor-pointer transition-all rounded-xl ${
-                                            pendingSortBy === option.value ? 'bg-white/10' : 'hover:bg-white/5'
-                                        }`}
-                                    >
-                                        <div className="relative">
-                                            <input
-                                                type="radio"
-                                                name="sort-option"
-                                                value={option.value}
-                                                checked={pendingSortBy === option.value}
-                                                onChange={(e) => handleSortChange(e.target.value)}
-                                                className="w-5 h-5 cursor-pointer bg-transparent border-2 border-white rounded-full focus:ring-white focus:ring-2 appearance-none hover:border-white/60 transition-colors"
-                                            />
-                                            {pendingSortBy === option.value && (
-                                                <div className="absolute top-0 left-0 w-5 h-5 flex items-center justify-center pointer-events-none">
-                                                    <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <span className="text-white text-sm font-medium">{option.label}</span>
-                                    </label>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                        </>
+                    )}
                 </PopUpModal>
             </>
         );

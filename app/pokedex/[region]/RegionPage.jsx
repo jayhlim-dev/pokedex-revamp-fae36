@@ -5,9 +5,6 @@ import CheckDevice from 'components/utils/CheckDevice';
 import Header from 'components/header';
 import PokemonGrid from 'components/Pokedex/PokemonGrid';
 import { useState } from 'react';
-import { trackButtonClick } from 'utils/trackingUtils';
-import Link from 'next/link';
-import PopUpModal from 'components/utils/PopUpModal';
 import clsx from 'clsx';
 
 export default function RegionPage({ data, region }) {
@@ -15,8 +12,13 @@ export default function RegionPage({ data, region }) {
 
     const isMobile = userDevice && userDevice.includes('mobile');
     const [isShowModal, setIsShowModal] = useState(false);
-    const [modalMode, setModalMode] = useState('filter'); // 'filter' or 'sort'
+    const [modalMode, setModalMode] = useState(''); // 'filter' or 'sort'
 
+    if (!userDevice) {
+        return <></>;
+    }
+
+    console.log(' 🚀 ༼;´༎ຶ ۝ ༎ຶ༽ ~  (ノ ° 益 °) ノ ~ (っ◔◡◔)っ ~   ~ userDevice:', userDevice);
     return (
         <>
             <div
@@ -44,6 +46,7 @@ export default function RegionPage({ data, region }) {
                             isShowModal={isShowModal}
                             setIsShowModal={setIsShowModal}
                             modalMode={modalMode}
+                            userDevice={userDevice}
                         />
                     ) : (
                         <div className="text-center text-gray-400">

@@ -88,15 +88,16 @@ export default function EvolutionChain({ evolutions, currentPokemonName }) {
                 </button>
                 <Swiper
                     className={clsx(
-                        'flex items-center w-full h-full min-h-[102px] overflow-x-auto evolution-swiper',
-                        isMobile ? 'max-w-[90vw] !h-[180px]' : ''
+                        'flex items-center w-full h-full min-h-[102px] overflow-x-auto',
+                        isMobile ? 'max-w-[90vw] !h-[180px]' : 'evolution-swiper'
                     )}
                     // activeSlideIndex={5}
                     initialSlide={0}
                     direction={'horizontal'}
                     // speed={1000}
                     // spaceBetween={10}
-                    slidesPerView={otherEvolutions.length === 2 ? 2 : isMobile ? 1.7 : 2.5}
+                    slidesPerView={2}
+                    // slidesPerView={otherEvolutions.length === 2 ? 2 : isMobile ? 1.7 : 2.5}
                     allowTouchMove={true}
                     wrapperClass={otherEvolutions.length === 2 && !isMobile ? 'justify-between flex w-full' : ''}
                     grabCursor={true}

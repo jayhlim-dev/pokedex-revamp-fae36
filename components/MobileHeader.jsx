@@ -98,7 +98,11 @@ export default function MobileHeader({ setIsShowModal, setModalMode }) {
                 <div className="flex w-full justify-between items-center">
                     <div
                         className="flex items-center justify-center h-[30px] w-[30px]"
-                        onClick={() => setIsShowModal(true)}
+                        // onClick={() => setIsShowModal(true)}
+                        onClick={() => {
+                            setModalMode?.('burger');
+                            setIsShowModal(true);
+                        }}
                     >
                         <Image
                             src="/images/icon/burger.png"

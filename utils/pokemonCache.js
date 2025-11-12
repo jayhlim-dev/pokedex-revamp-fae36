@@ -220,7 +220,7 @@ export async function fetchPokemonWithCache(pokemonName) {
     // Check cache first
     const cachedData = getCachedPokemon(pokemonName);
     if (cachedData) {
-        console.log(`✅ Using cached data for ${pokemonName}`);
+        // console.log(`✅ Using cached data for ${pokemonName}`);
         return { data: cachedData, fromCache: true };
     }
 

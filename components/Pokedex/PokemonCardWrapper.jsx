@@ -11,7 +11,7 @@ export default function PokemonCardWrapper({ children, href }) {
         // Store the current pathname as the referrer
         if (typeof window !== 'undefined') {
             sessionStorage.setItem('pokemonReferrer', pathname);
-            console.log('🚀 Stored referrer:', pathname);
+            // console.log('🚀 Stored referrer:', pathname);
         }
         // Use client-side navigation for faster loading
         router.push(href);

@@ -68,7 +68,8 @@ export default function MobilePopularMapSection({ index = 2 }) {
                                     {/* <p className="text-white text-4xs text-justify px-2">{map.desc}</p> */}
                                 </div>
 
-                                <div className="w-full !min-w-[200px] relative">
+                                {/* <div className="w-full !min-w-[200px] relative"> */}
+                                <div className="w-full !min-w-[160px] relative">
                                     <Image
                                         src={map.image}
                                         alt={map.name}
