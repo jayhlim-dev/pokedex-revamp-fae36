@@ -41,11 +41,11 @@ export default function MobileLandingPage() {
                 className="!h-screen !w-screen"
                 initialSlide={0}
                 direction={'vertical'}
-                speed={1000}
+                speed={500}
                 spaceBetween={0}
                 slidesPerView={1}
                 allowTouchMove={true}
-                resistance={true}
+                // resistance={true}
                 // shortSwipes={false}
                 // longSwipes={true}
                 mousewheel={{
