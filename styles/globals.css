@@ -142,6 +142,47 @@
             transform: rotate(0deg);
         }
     }
+
+    .cloud-animate-1 {
+        animation: cloud-move-right-to-left 120s linear infinite;
+    }
+
+    .cloud-animate-2 {
+        animation: cloud-move-right-to-left 140s linear infinite;
+    }
+
+    .cloud-animate-3 {
+        animation: cloud-move-right-to-left 130s linear infinite;
+    }
+
+    .cloud-animate-4 {
+        animation: cloud-move-right-to-left 150s linear infinite;
+    }
+
+    .cloud-animate-5 {
+        animation: cloud-move-right-to-left 125s linear infinite;
+    }
+
+    .cloud-animate-6 {
+        animation: cloud-move-right-to-left 115s linear infinite;
+    }
+
+    .cloud-animate-7 {
+        animation: cloud-move-right-to-left 135s linear infinite;
+    }
+
+    .cloud-animate-8 {
+        animation: cloud-move-right-to-left 128s linear infinite;
+    }
+
+    @keyframes cloud-move-right-to-left {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-100vw - 400px));
+        }
+    }
 }
 
 @layer components {
