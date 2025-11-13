@@ -8,7 +8,12 @@ const nextConfig = {
                 hostname: 'raw.githubusercontent.com',
                 pathname: '/PokeAPI/sprites/**'
             }
-        ]
+        ],
+        // Cache optimized images for 60 seconds
+        minimumCacheTTL: 60,
+        // Add device sizes for better optimization
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+        imageSizes: [16, 32, 48, 64, 96, 128, 256, 384]
     }
 };
 
