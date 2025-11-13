@@ -49,7 +49,7 @@ export default function HomeSection({ index = 0, userDevice }) {
             <div className={'absolute h-screen flex z-0 w-full blur-xs'}></div>
 
             {/* Animated Clouds */}
-            <div className="absolute inset-0 overflow-hidden z-50">
+            <div className="absolute inset-0 overflow-hidden z-50 max-h-[30em]">
                 {cloudPositions.length > 0 && (
                     <>
                         {/* Cloud 1 - Medium */}

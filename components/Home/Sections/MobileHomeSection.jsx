@@ -42,10 +42,10 @@ export default function MobileHomeSection({ index = 0, userDevice }) {
 
     return (
         <div className="relative capitalize">
-            <div className={'absolute h-screen flex z-0 w-full blur-xs'}></div>
+            {/* <div className={'absolute h-screen flex z-0 w-full blur-xs'}></div> */}
 
             {/* Animated Clouds */}
-            <div className="absolute inset-0 overflow-hidden z-50">
+            <div className="absolute inset-0 overflow-hidden z-50 max-h-[30em]">
                 {cloudPositions.length > 0 && (
                     <>
                         {/* Cloud 1 - Medium */}
@@ -171,7 +171,7 @@ export default function MobileHomeSection({ index = 0, userDevice }) {
                         </div>
 
                         <div
-                            className="cursor-pointer bg-black/75 px-16 rounded-sm py-3 shadow-md shadow-black/40"
+                            className="cursor-pointer bg-black/75 px-16 rounded-sm py-3 shadow-md shadow-black/40 z-50"
                             onClick={handlePokedexClick}
                         >
                             <p className="text-3xs">Explore the Pokédex</p>
