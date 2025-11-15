@@ -5,10 +5,11 @@ import MobileHeader from 'components/MobileHeader';
 import Header from 'components/header';
 import CheckDevice from 'components/utils/CheckDevice';
 import PopUpModal from 'components/utils/PopUpModal';
+import NavigationLinks from 'components/utils/NavigationLinks';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { trackButtonClick, trackSectionView } from 'utils/trackingUtils';
+import { trackSectionView } from 'utils/trackingUtils';
 import LoadingIndicator from './LoadingIndicator';
 // import { fetchPokedexWithCache } from 'utils/pokedexCache';
 
@@ -141,22 +142,7 @@ export default function PokedexLocation({ data, searchComponent, fetchInfo }) {
                         actionButton={false}
                         bodyHeight="fit-content"
                     >
-                        <div className="flex flex-col gap-5 justify-center items-center py-20 text-md ">
-                            <Link
-                                href="/"
-                                onClick={() => trackButtonClick('Home Link', '/', 'Pokedex')}
-                                className="no-underline"
-                            >
-                                <div className="text-white font-bold">Home</div>
-                            </Link>
-                            <Link
-                                href="/pokedex"
-                                onClick={() => trackButtonClick('Pokedex Link', '/pokedex', 'Pokedex')}
-                                className="no-underline"
-                            >
-                                <div className="text-whitefont-bold">Pokedex</div>
-                            </Link>
-                        </div>
+                        <NavigationLinks />
                     </PopUpModal>
                 </>
             )}

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { trackButtonClick } from 'utils/trackingUtils';
+import PokemonSearch from './Pokedex/PokemonSearch';
 
 const navItems = [
     {
@@ -90,7 +91,7 @@ export default function Header() {
                 <Link
                     href="/"
                     onClick={handleLogoClick}
-                    className="w-32 h-10 flex items-center justify-center no-underline hover:opacity-80 transition-opacity"
+                    className="w-32 h-10 flex items-center justify-center no-underline hover:opacity-80 transition-opacity min-w-[126px]"
                 >
                     <Image
                         src="/images/logo/secondary-logo.png"
@@ -114,7 +115,7 @@ export default function Header() {
                                         onClick={() => handleBreadcrumbClick(crumb)}
                                         className={`no-underline transition-colors uppercase ${
                                             index === breadcrumbs.length - 1
-                                                ? 'text-primary font-bold'
+                                                ? 'text-primary font-bold whitespace-nowrap'
                                                 : 'text-[#FFFCE9] hover:text-primary'
                                         }`}
                                     >
@@ -140,6 +141,10 @@ export default function Header() {
                         ))
                     )}
                 </div>
+
+                <div className="w-[1px] bg-white h-6 rounded-full"></div>
+                <PokemonSearch className="!max-w-[45%] min-w-[260px]" inputClassName="!py-2 !text-2xs !px-4 !pr-4" />
+
             </div>
         </div>
     );

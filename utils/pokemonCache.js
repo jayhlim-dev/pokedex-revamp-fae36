@@ -24,12 +24,32 @@ function isCacheExpired(timestamp) {
 }
 
 /**
+ * Validate that cached Pokemon data has at least one image URL
+ * @param {Object} data - Pokemon data to validate
+ * @returns {boolean} True if valid image URL exists
+ */
+function hasValidImage(data) {
+    if (!data || !data.sprites) return false;
+    const hasOfficialArtwork = data.sprites?.other?.['official-artwork']?.front_default;
+    const hasRegularSprite = data.sprites?.front_default;
+    return !!(hasOfficialArtwork || hasRegularSprite);
+}
+
+/**
  * Get Pokemon data from cache (checks memory first, then localStorage)
  */
 export function getCachedPokemon(pokemonName) {
     // Check in-memory cache first (fastest)
     if (pokemonCache.has(pokemonName)) {
-        return pokemonCache.get(pokemonName);
+        const cachedData = pokemonCache.get(pokemonName);
+        // Validate cached data has image URLs
+        if (hasValidImage(cachedData)) {
+            return cachedData;
+        } else {
+            // Remove invalid cache entry
+            pokemonCache.delete(pokemonName);
+            console.warn(`⚠️ Removed invalid cache entry for ${pokemonName}: No image URL`);
+        }
     }
 
     // Check localStorage (persistent across sessions)
@@ -42,9 +62,16 @@ export function getCachedPokemon(pokemonName) {
 
             // Check if cache is still valid
             if (!isCacheExpired(timestamp)) {
-                // Store in memory cache for faster access next time
-                pokemonCache.set(pokemonName, data);
-                return data;
+                // Validate cached data has image URLs
+                if (hasValidImage(data)) {
+                    // Store in memory cache for faster access next time
+                    pokemonCache.set(pokemonName, data);
+                    return data;
+                } else {
+                    // Remove invalid cache entry
+                    localStorage.removeItem(cacheKey);
+                    console.warn(`⚠️ Removed invalid cache entry for ${pokemonName}: No image URL`);
+                }
             } else {
                 // Remove expired cache
                 localStorage.removeItem(cacheKey);
@@ -263,7 +290,18 @@ export async function fetchPokemonWithCache(pokemonName) {
             weight: pokemonData.weight
         };
 
-        // Cache the fetched data
+        // Validate that at least one image URL exists before caching
+        const hasOfficialArtwork = essentialData.sprites?.other?.['official-artwork']?.front_default;
+        const hasRegularSprite = essentialData.sprites?.front_default;
+        const hasImage = hasOfficialArtwork || hasRegularSprite;
+
+        if (!hasImage) {
+            console.warn(`⚠️ Skipping cache for ${pokemonName}: No image URL found`);
+            // Return data without caching if no image exists
+            return { data: essentialData, fromCache: false, error: false };
+        }
+
+        // Cache the fetched data only if image URLs exist
         cachePokemon(pokemonName, essentialData);
 
         // Log size optimization

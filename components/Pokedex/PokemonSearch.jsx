@@ -1,15 +1,19 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { createPortal } from 'react-dom';
+import clsx from 'clsx';
 import { trackButtonClick } from 'utils/trackingUtils';
 import { trackPokemonSearch } from 'utils/trackingUtils';
 import CheckDevice from 'components/utils/CheckDevice';
+import LoadingIndicator from './LoadingIndicator';
 
-export default function PokemonSearch() {
+export default function PokemonSearch({ className = '', inputClassName = '' }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [allNames, setAllNames] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [highlightIndex, setHighlightIndex] = useState(-1);
+    const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef(null);
     const containerRef = useRef(null);
 
@@ -77,6 +81,10 @@ export default function PokemonSearch() {
 
     const navigateTo = (name) => {
         if (!name) return;
+        
+        // Show loading overlay
+        setIsLoading(true);
+        
         if (typeof window !== 'undefined') {
             sessionStorage.setItem('pokemonReferrer', pathname);
         }
@@ -91,8 +99,20 @@ export default function PokemonSearch() {
         setHighlightIndex(-1);
         if (inputRef.current) inputRef.current.blur();
 
+        // Navigate and set timeout to clear loading state if navigation fails
         router.push(`/pokemon/${name}`);
+        
+        // Fallback: clear loading state after 5 seconds if still showing
+        // (in case navigation fails or takes too long)
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 5000);
     };
+
+    // Clear loading state when pathname changes (navigation completed)
+    useEffect(() => {
+        setIsLoading(false);
+    }, [pathname]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -164,23 +184,64 @@ export default function PokemonSearch() {
     };
 
     return (
-        <div className={`${isMobile ? 'w-[53vw]' : 'w-full'}`} ref={containerRef}>
-            <form onSubmit={handleSearch} className="flex gap-3 w-full">
+        <>
+            {/* Full-screen loading overlay - rendered via portal to document.body to ignore parent constraints */}
+            {isLoading && typeof window !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+                    style={{ 
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        margin: 0,
+                        padding: 0
+                    }}
+                >
+                    <div className="flex flex-col items-center justify-center gap-4">
+                        <LoadingIndicator />
+                        <p 
+                            className="text-white text-lg sm:text-xl font-medium text-center px-4" 
+                            style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)' }}
+                        >
+                            Loading Pokemon...
+                        </p>
+                    </div>
+                </div>,
+                document.body
+            )}
+            
+            <div className={`${isMobile ? 'w-[53vw]' : 'w-full'} ${className}`} ref={containerRef}>
+                <form onSubmit={handleSearch} className="flex gap-3 w-full">
                 <div className="relative flex-1 w-full">
                     <input
                         ref={inputRef}
                         type="text"
+                        name="pokemon-search"
+                        id="pokemon-search"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onFocus={() => setIsOpen(suggestions.length > 0 && Boolean(debouncedQuery))}
                         onKeyDown={onKeyDown}
                         placeholder="Search Pokemon Name"
-                        className={`w-full py-3 rounded-lg focus:ring-2 focus:ring-white/60 border-none text-white placeholder:text-white/80 outline-none transition-all ${
-                            isMobile
-                                ? 'text-3xs px-4 bg-white/20 pr-10'
-                                : 'text-sm px-7 pr-12 shadow-md shadow-black/40 backdrop-blur-sm'
-                        }`}
+                        className={clsx(
+                            'w-full py-3 rounded-lg focus:ring-2 focus:ring-white/60 border-none text-white placeholder:text-white/80 outline-none transition-all',
+                            {
+                                // Mobile styles
+                                'px-4 bg-white/20 pr-10': isMobile,
+                                'text-3xs': isMobile && !inputClassName.includes('text-'),
+                                // Desktop styles
+                                'px-7 pr-12 shadow-md shadow-black/40 backdrop-blur-sm': !isMobile,
+                                '!text-2xs': !isMobile && inputClassName.includes('text-'),
+                                'text-sm': !isMobile && !inputClassName.includes('text-')
+                            },
+                            inputClassName
+                        )}
                     />
+
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
                         <svg className="w-5 h-5 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path
@@ -222,8 +283,8 @@ export default function PokemonSearch() {
                         </ul>
                     )}
                 </div>
-                {/* Optional explicit Search button removed to keep UI clean */}
             </form>
-        </div>
+            </div>
+        </>
     );
 }

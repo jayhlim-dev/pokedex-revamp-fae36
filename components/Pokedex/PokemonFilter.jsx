@@ -5,7 +5,7 @@ import { POKEMON_TYPE_COLORS, getPokemonTypeColor } from 'constants/pokemonTypes
 import PokemonSearch from './PokemonSearch';
 import { trackPokedexFilter } from 'utils/trackingUtils';
 import PopUpModal from 'components/utils/PopUpModal';
-import Link from 'next/link';
+import NavigationLinks from 'components/utils/NavigationLinks';
 
 /**
  * PokemonFilter Component
@@ -154,22 +154,7 @@ export default function PokemonFilter({
                     onApply={handleApply}
                 >
                     {modalMode === 'burger' ? (
-                        <div className="flex flex-col gap-5 justify-center items-center py-20 text-md ">
-                            <Link
-                                href="/"
-                                onClick={() => trackButtonClick('Home Link', '/', 'Pokedex')}
-                                className="no-underline"
-                            >
-                                <div className="text-white font-bold">Home</div>
-                            </Link>
-                            <Link
-                                href="/pokedex"
-                                onClick={() => trackButtonClick('Pokedex Link', '/pokedex', 'Pokedex')}
-                                className="no-underline"
-                            >
-                                <div className="text-whitefont-bold">Pokedex</div>
-                            </Link>
-                        </div>
+                        <NavigationLinks />
                     ) : (
                         <>
                             <div className="flex flex-col gap-5 justify-center items-center w-full py-6 pt-12">

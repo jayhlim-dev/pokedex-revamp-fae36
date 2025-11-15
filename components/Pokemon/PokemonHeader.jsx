@@ -11,11 +11,17 @@ import clsx from 'clsx';
  */
 export default function PokemonHeader({ pokemon, device }) {
     const isMobile = device && device.includes('mobile');
+    const pokemonName = pokemon.name.replace(/-/g, ' ');
+    const maxLength = 14; // "pikachu rock s" length
+    const shouldUseSmallText = isMobile && pokemonName.length > maxLength;
+
     return (
         <div className={clsx(`flex flex-col ${isMobile ? 'pl-4 w-full' : ''}`)}>
             <div className="text-3xs font-bold ">#{pokemon.id.toString().padStart(3, '0')}</div>
             <div className="flex items-center">
-                <h1 className="text-xl font-bold uppercase ">{pokemon.name.replace(/-/g, ' ')}</h1>
+                <h1 className={clsx('font-bold uppercase', shouldUseSmallText ? 'text-base' : 'text-xl')}>
+                    {pokemonName}
+                </h1>
                 <PokemonCryButton pokemon={pokemon} />
             </div>
             <div className={clsx('flex gap-2 mt-2', isMobile ? '!mt-4 justify-between w-full' : '')}>

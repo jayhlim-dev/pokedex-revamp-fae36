@@ -4,7 +4,6 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
 
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import 'tailwindcss';
 
 @theme {
     --background-image-noise: linear-gradient(
@@ -93,8 +92,14 @@
 
 @layer utilities {
     .text-2xs {
-        font-size: var(--font-size-2xs);
-        line-height: var(--line-height-2xs);
+        font-size: var(--font-size-2xs) !important;
+        line-height: var(--line-height-2xs) !important;
+    }
+    
+    /* Support for important modifier in Tailwind v4 */
+    .\!text-2xs {
+        font-size: var(--font-size-2xs) !important;
+        line-height: var(--line-height-2xs) !important;
     }
 
     .text-3xs {

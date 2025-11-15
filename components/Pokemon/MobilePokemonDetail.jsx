@@ -6,8 +6,7 @@ import MobileHeader from 'components/MobileHeader';
 import MobilePokemonImageSection from './MobilePokemonImageSection';
 import PokemonBottomSection from './PokemonBottomSection';
 import PopUpModal from 'components/utils/PopUpModal';
-import Link from 'next/link';
-import { trackButtonClick } from 'utils/trackingUtils';
+import NavigationLinks from 'components/utils/NavigationLinks';
 import { useState } from 'react';
 
 export default function MobilePokemonDetail({
@@ -54,22 +53,7 @@ export default function MobilePokemonDetail({
                 actionButton={false}
                 bodyHeight="fit-content"
             >
-                <div className="flex flex-col gap-5 justify-center items-center py-20 text-md ">
-                    <Link
-                        href="/"
-                        onClick={() => trackButtonClick('Home Link', '/', 'Pokedex')}
-                        className="no-underline"
-                    >
-                        <div className="text-white font-bold">Home</div>
-                    </Link>
-                    <Link
-                        href="/pokedex"
-                        onClick={() => trackButtonClick('Pokedex Link', '/pokedex', 'Pokedex')}
-                        className="no-underline"
-                    >
-                        <div className="text-whitefont-bold">Pokedex</div>
-                    </Link>
-                </div>
+                <NavigationLinks />
             </PopUpModal>
 
             {/* the section below is only shown on desktop devices because it's different position from the mobile version*/}

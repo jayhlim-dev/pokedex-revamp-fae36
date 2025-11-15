@@ -3,6 +3,37 @@
  */
 
 /**
+ * Fetch with configurable timeout
+ *
+ * NOTE: Previous timeout was Next.js default (~30 seconds, not explicitly set)
+ * Current timeout: 60 seconds (60000ms) - increased to handle slow network connections
+ *
+ * @param {string} url - URL to fetch
+ * @param {Object} options - Fetch options
+ * @param {number} timeoutMs - Timeout in milliseconds (default: 30000 = 30 seconds)
+ * @returns {Promise<Response>} Fetch response
+ */
+const fetchWithTimeout = async (url, options = {}, timeoutMs = 30000) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+        const response = await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+            throw new Error(`Request timeout after ${timeoutMs}ms`);
+        }
+        throw error;
+    }
+};
+
+/**
  * Get English flavor text, prioritizing HeartGold version
  * @param {Array} entries - Array of flavor text entries
  * @returns {string} Formatted flavor text
@@ -40,30 +71,108 @@ export const getStatColor = (statName) => {
  */
 export const getPokemonData = async (pokemonName) => {
     try {
-        const [pokemonRes, speciesRes] = await Promise.all([
-            fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`, {
-                next: { revalidate: 4320000 } // Revalidate every 50 days
-            }),
-            fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName.toLowerCase()}`, {
-                next: { revalidate: 4320000 }
-            })
-        ]);
+        const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`;
 
-        if (!pokemonRes.ok || !speciesRes.ok) {
-            console.warn('⚠️ Failed to fetch pokemon data', {
-                pokemonStatus: pokemonRes.status,
-                speciesStatus: speciesRes.status,
-                name: pokemonName
+        // Fetch Pokemon data with increased timeout
+        // Previous: Next.js default timeout (~30 seconds, not explicitly set)
+        // Current: 60 seconds (60000ms) - increased to handle slow network connections
+        let pokemonResponse;
+        try {
+            pokemonResponse = await fetchWithTimeout(
+                pokemonUrl,
+                {
+                    next: { revalidate: 4320000 } // Revalidate every 50 days
+                },
+                60000 // 60 second timeout (was ~30 seconds default before)
+            );
+        } catch (fetchError) {
+            // Handle network errors (DNS, connection, timeout, etc.)
+            console.error('❌ Network error fetching pokemon:', {
+                pokemonName,
+                url: pokemonUrl,
+                error: fetchError.message || fetchError,
+                errorType: fetchError.name || 'NetworkError'
             });
             return null;
         }
 
-        const pokemon = await pokemonRes.json();
-        const species = await speciesRes.json();
+        if (!pokemonResponse.ok) {
+            console.warn('⚠️ Failed to fetch pokemon:', {
+                pokemonName,
+                status: pokemonResponse.status,
+                statusText: pokemonResponse.statusText
+            });
+            return null;
+        }
+
+        let pokemon;
+        try {
+            pokemon = await pokemonResponse.json();
+        } catch (jsonError) {
+            console.error('❌ Error parsing pokemon JSON:', {
+                pokemonName,
+                error: jsonError.message || jsonError
+            });
+            return null;
+        }
+
+        // Get the species URL from the Pokemon data (handles special forms correctly)
+        // For special forms like "pikachu-rock-star", the species URL points to the base species
+        const speciesUrl =
+            pokemon.species?.url || `https://pokeapi.co/api/v2/pokemon-species/${pokemonName.toLowerCase()}`;
+
+        // Fetch species data using the URL from Pokemon data with increased timeout
+        // Previous: Next.js default timeout (~30 seconds, not explicitly set)
+        // Current: 60 seconds (60000ms) - increased to handle slow network connections
+        let speciesResponse;
+        try {
+            speciesResponse = await fetchWithTimeout(
+                speciesUrl,
+                {
+                    next: { revalidate: 4320000 }
+                },
+                60000 // 60 second timeout (was ~30 seconds default before)
+            );
+        } catch (fetchError) {
+            // Handle network errors for species fetch
+            console.error('❌ Network error fetching pokemon species:', {
+                pokemonName,
+                speciesUrl,
+                error: fetchError.message || fetchError,
+                errorType: fetchError.name || 'NetworkError'
+            });
+            return null;
+        }
+
+        if (!speciesResponse.ok) {
+            console.warn('⚠️ Failed to fetch pokemon species:', {
+                pokemonName,
+                speciesUrl,
+                status: speciesResponse.status,
+                statusText: speciesResponse.statusText
+            });
+            return null;
+        }
+
+        let species;
+        try {
+            species = await speciesResponse.json();
+        } catch (jsonError) {
+            console.error('❌ Error parsing species JSON:', {
+                pokemonName,
+                error: jsonError.message || jsonError
+            });
+            return null;
+        }
 
         return { pokemon, species };
     } catch (error) {
-        console.error('❌ Error fetching pokemon:', error);
+        // Catch any other unexpected errors
+        console.error('❌ Unexpected error fetching pokemon:', {
+            pokemonName,
+            error: error.message || error,
+            stack: error.stack
+        });
         return null;
     }
 };
@@ -75,17 +184,53 @@ export const getPokemonData = async (pokemonName) => {
  */
 export const getEvolutionChain = async (evolutionChainUrl) => {
     try {
-        const response = await fetch(evolutionChainUrl, {
-            next: { revalidate: 4320000 } // Revalidate every 50 days
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch evolution chain');
+        // Fetch evolution chain data with increased timeout
+        // Previous: Next.js default timeout (~30 seconds, not explicitly set)
+        // Current: 60 seconds (60000ms) - increased to handle slow network connections
+        let response;
+        try {
+            response = await fetchWithTimeout(
+                evolutionChainUrl,
+                {
+                    next: { revalidate: 4320000 } // Revalidate every 50 days
+                },
+                60000 // 60 second timeout (was ~30 seconds default before)
+            );
+        } catch (fetchError) {
+            // Handle network errors
+            console.error('❌ Network error fetching evolution chain:', {
+                url: evolutionChainUrl,
+                error: fetchError.message || fetchError,
+                errorType: fetchError.name || 'NetworkError'
+            });
+            return null;
         }
 
-        return await response.json();
+        if (!response.ok) {
+            console.warn('⚠️ Failed to fetch evolution chain:', {
+                url: evolutionChainUrl,
+                status: response.status,
+                statusText: response.statusText
+            });
+            return null;
+        }
+
+        try {
+            return await response.json();
+        } catch (jsonError) {
+            console.error('❌ Error parsing evolution chain JSON:', {
+                url: evolutionChainUrl,
+                error: jsonError.message || jsonError
+            });
+            return null;
+        }
     } catch (error) {
-        console.error('❌ Error fetching evolution chain:', error);
+        // Catch any other unexpected errors
+        console.error('❌ Unexpected error fetching evolution chain:', {
+            url: evolutionChainUrl,
+            error: error.message || error,
+            stack: error.stack
+        });
         return null;
     }
 };
