@@ -95,7 +95,7 @@
         font-size: var(--font-size-2xs) !important;
         line-height: var(--line-height-2xs) !important;
     }
-    
+
     /* Support for important modifier in Tailwind v4 */
     .\!text-2xs {
         font-size: var(--font-size-2xs) !important;
@@ -145,6 +145,28 @@
         }
         100% {
             transform: rotate(0deg);
+        }
+    }
+
+    .animate-breathe {
+        animation: breathe 10s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+        0% {
+            opacity: 1;
+            filter: grayscale(0%) brightness(1);
+            transform: rotate(0deg) scale(1);
+        }
+        50% {
+            opacity: 0.3;
+            filter: grayscale(60%) brightness(0.8);
+            transform: rotate(0.1deg) scale(0.99);
+        }
+        100% {
+            opacity: 1;
+            filter: grayscale(0%) brightness(1);
+            transform: rotate(0deg) scale(1);
         }
     }
 

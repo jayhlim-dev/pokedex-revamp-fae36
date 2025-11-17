@@ -21,23 +21,23 @@ export default function AboutUsSection({ index = 4 }) {
 
     return (
         <div className="relative capitalize bg-black">
-            <div className="absolute inset-0 bg-[url('/accessories/pokeball-bg.png')] bg-no-repeat bg-center bg-cover z-0"></div>
-            <div className="absolute left-0 top-0 h-screen w-auto flex items-center">
+            <div className="absolute inset-0 bg-[url('/accessories/pokeball-bg.png')] bg-no-repeat bg-center bg-cover z-0 animate-breathe"></div>
+            <div className="absolute left-[-2%] top-0 h-screen w-auto flex items-center">
                 <Image
                     src={Orico}
                     alt="pokemon bag"
-                    className="!h-full !w-auto !object-contain"
+                    className="!h-full !w-auto !object-contain animate-rotate-slow"
                     width={500}
                     height={500}
                     priority
                 />
             </div>
 
-            <div className="absolute right-0 top-0 h-screen w-auto flex items-center">
+            <div className="absolute right-[-2%] top-0 h-screen w-auto flex items-center">
                 <Image
                     src={Orico}
                     alt="pokemon bag"
-                    className="!h-full !w-auto !object-contain scale-x-[-1]"
+                    className="!h-full !w-auto !object-contain scale-x-[-1] animate-rotate-slow"
                     width={500}
                     height={500}
                     priority

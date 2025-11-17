@@ -269,11 +269,10 @@ export default function PokemonFilter({
     }
 
     return (
-        <div className="w-[22vw] bg-[#231502]/20 backdrop-blur-xs rounded-2xl p-4 shadow-lg justify-center items-center h-fit gap-4 flex flex-col max-w-[415px]">
+        <div className="w-[22vw] bg-[#231502]/20 backdrop-blur-xs rounded-2xl p-4 shadow-lg justify-center items-center h-fit gap-4 flex flex-col max-w-[415px] !py-6">
             {/* Header with expand/collapse button */}
-            <PokemonSearch />
-
-            <div className="h-[1px] flex w-full bg-[#FFFCE9]/30"></div>
+            {/* <PokemonSearch /> */}
+            {/* <div className="h-[1px] flex w-full bg-[#FFFCE9]/30"></div> */}
 
             {/* Expandable content */}
             <div
@@ -282,7 +281,7 @@ export default function PokemonFilter({
             >
                 {/* Type Filters */}
                 <div className="w-full flex flex-col items-start justify-center gap-2">
-                    <div className="flex items-center justify-between flex-col gap-2 w-full">
+                    <div className="flex items-start justify-between flex-col gap-2 w-full">
                         <div className="flex items-center justify-between w-full gap-2">
                             <label className="text-white/90 text-xs font-medium">Filter by Type</label>
                             {/* {selectedTypes.length > 0 && (
@@ -300,7 +299,7 @@ export default function PokemonFilter({
                             </button>
                             {/* )} */}
                         </div>
-                        <div className="h-[1px] flex w-full bg-[#FFFCE9]/30"></div>
+                        <div className="h-[1px] flex w-full bg-[#FFFCE9]/30 max-w-[60%]"></div>
                     </div>
                     <div className="grid grid-cols-2 justify-between items-center w-full">
                         {allTypes.map((type) => (
@@ -333,12 +332,12 @@ export default function PokemonFilter({
                     </div>
                 </div>
 
-                <div className="h-[1px] flex w-full bg-[#FFFCE9]/30"></div>
+                <div className="h-[1px] flex w-full bg-[#FFFCE9]/20"></div>
 
                 {/* Sort Options */}
                 <div className="flex flex-col items-start justify-center gap-2 w-full">
                     <label className="text-white/90 text-xs font-medium block gap-2">Sorting By</label>
-                    <div className="h-[1px] flex w-full bg-[#FFFCE9]/30 max-w-[20%]"></div>
+                    <div className="h-[1px] flex w-full bg-[#FFFCE9]/30 max-w-[45%]"></div>
 
                     <div className="flex flex-wrap gap-2 w-full">
                         <div className="relative w-full">

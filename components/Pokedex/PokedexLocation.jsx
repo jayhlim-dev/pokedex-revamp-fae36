@@ -72,7 +72,7 @@ export default function PokedexLocation({ data, searchComponent, fetchInfo }) {
                     )}
                     <div
                         className={`w-full flex flex-col items-center justify-center gap-10 px-8 ${
-                            isMobile ? 'pt-12' : 'pt-28'
+                            isMobile ? 'pt-12' : 'pt-16'
                         } pb-32`}
                     >
                         {searchComponent && searchComponent}
