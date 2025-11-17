@@ -46,7 +46,7 @@ export default function LandingPage() {
                 // activeSlideIndex={5}
                 initialSlide={0}
                 direction={'vertical'}
-                speed={600}
+                speed={400}
                 spaceBetween={0}
                 slidesPerView={1}
                 allowTouchMove={true}
