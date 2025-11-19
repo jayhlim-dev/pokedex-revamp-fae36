@@ -73,3 +73,5 @@ export default function LandingPage() {
 
     return <div className="flex flex-col h-full w-full [font-family:var(--font-press)] ">{renderSwiper()}</div>;
 }
+
+// so i have problem on tracking, the problem is yes i got event pokemon_not_found and can see the pokemon problem, it just can i got like Pokemon name then i can see how much user view, user got error play cry or esle? wdyt and what do you prefer

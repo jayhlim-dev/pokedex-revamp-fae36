@@ -1,5 +1,6 @@
 // Pokemon data cache utility
 // Provides two-tier caching: in-memory (Map) and localStorage
+import { trackError } from './trackingUtils';
 
 // In-memory cache for Pokemon data
 const pokemonCache = new Map();
@@ -257,6 +258,16 @@ export async function fetchPokemonWithCache(pokemonName) {
 
         if (!pokemonRes.ok) {
             // console.error(`Failed to fetch ${pokemonName}: ${pokemonRes.status}`);
+
+            // Track error
+            trackError({
+                errorType: 'pokemon_cache_fetch',
+                pokemonName,
+                statusCode: pokemonRes.status,
+                statusText: pokemonRes.statusText,
+                url: `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
+            });
+
             return { data: null, fromCache: false, error: true };
         }
 
@@ -317,6 +328,18 @@ export async function fetchPokemonWithCache(pokemonName) {
         return { data: essentialData, fromCache: false };
     } catch (error) {
         console.error(`Error fetching ${pokemonName}:`, error);
+
+        // Track error
+        trackError({
+            errorType: 'pokemon_cache_fetch_error',
+            pokemonName,
+            errorMessage: error.message || String(error),
+            url: `https://pokeapi.co/api/v2/pokemon/${pokemonName}`,
+            additionalData: {
+                error_type_name: error.name || 'Error'
+            }
+        });
+
         return { data: null, fromCache: false, error: true };
     }
 }

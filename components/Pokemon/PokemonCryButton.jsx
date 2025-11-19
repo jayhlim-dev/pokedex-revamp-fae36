@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { trackPokemonEvent } from 'utils/trackingUtils';
+import { trackPokemonEvent, trackError } from 'utils/trackingUtils';
 
 export default function PokemonCryButton({ pokemon }) {
     const audioRef = useRef(null);
@@ -29,6 +29,17 @@ export default function PokemonCryButton({ pokemon }) {
                 audioRef.current.onerror = () => {
                     setIsPlaying(false);
                     setError('Failed to play');
+                    // Track cry play error
+                    trackError({
+                        errorType: 'cry_play_error',
+                        pokemonName: pokemon?.name,
+                        errorMessage: 'Audio playback failed',
+                        url: cryUrl,
+                        additionalData: {
+                            pokemon_id: pokemon?.id,
+                            source: 'header_button'
+                        }
+                    });
                 };
             }
 
@@ -43,6 +54,18 @@ export default function PokemonCryButton({ pokemon }) {
         } catch (e) {
             setIsPlaying(false);
             setError('Failed to play');
+            // Track cry play error
+            trackError({
+                errorType: 'cry_play_error',
+                pokemonName: pokemon?.name,
+                errorMessage: e.message || String(e),
+                url: cryUrl,
+                additionalData: {
+                    pokemon_id: pokemon?.id,
+                    source: 'header_button',
+                    error_type_name: e.name || 'Error'
+                }
+            });
         }
     };
 

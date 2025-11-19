@@ -6,7 +6,7 @@ import { trackSectionView } from 'utils/trackingUtils';
 
 export default function JourneySection({ index = 1 }) {
     const section = {
-        title: 'PokeHex',
+        title: 'PokeVee',
         desc: 'The sun is warm. The breeze carries a whisper. In front of you: one old bag, three Poké Balls, and a choice that shaped everything.',
         background: '/images/home/pokemon-journey.png',
         background_xl: '/images/home/xl/pokemon-journey-xl.png',

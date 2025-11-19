@@ -1,6 +1,32 @@
 /**
  * Google Analytics tracking utility functions
  * Provides reusable functions for tracking page views and events
+ *
+ * POKEMON ANALYTICS QUERY GUIDE:
+ * ==============================
+ * To see all events for a specific Pokemon (e.g., "duraludon"):
+ * 1. Go to Events report in GA4
+ * 2. Filter by Event Label = "duraludon"
+ * 3. You'll see:
+ *    - pokemon_view_pokemon_detail (views)
+ *    - pokemon_cry_play (cry interactions)
+ *    - error_occurred (errors with pokemon_name = "duraludon")
+ *    - pokemon_evolution_click (evolution clicks)
+ *    - pokemon_random_pokemon_click (random clicks)
+ *
+ * To see error breakdown for a Pokemon:
+ * 1. Filter by Event Label = "duraludon" AND Event Name = "error_occurred"
+ * 2. Check customData.error_type for specific error types:
+ *    - pokemon_fetch (HTTP errors like 500)
+ *    - pokemon_fetch_network (network errors)
+ *    - cry_play_error (cry playback failures)
+ *
+ * To see all Pokemon views:
+ * - Filter by Event Name contains "pokemon_view"
+ *
+ * To see all errors:
+ * - Filter by Event Name = "error_occurred"
+ * - Group by customData.pokemon_name to see which Pokemon have errors
  */
 
 /**
@@ -14,13 +40,7 @@
  */
 export const trackPageView = (params) => {
     if (typeof window !== 'undefined' && window.gtag) {
-        const {
-            pageTitle,
-            sectionName,
-            sectionIndex,
-            pageLocation = window.location.href,
-            customData = {}
-        } = params;
+        const { pageTitle, sectionName, sectionIndex, pageLocation = window.location.href, customData = {} } = params;
 
         window.gtag('event', 'page_view', {
             page_title: pageTitle,
@@ -43,13 +63,7 @@ export const trackPageView = (params) => {
  */
 export const trackEvent = (eventName, params = {}) => {
     if (typeof window !== 'undefined' && window.gtag) {
-        const {
-            eventCategory,
-            eventLabel,
-            value,
-            customData = {},
-            
-        } = params;
+        const { eventCategory, eventLabel, value, customData = {} } = params;
 
         window.gtag('event', eventName, {
             event_category: eventCategory,
@@ -74,7 +88,7 @@ export const trackSectionView = (sectionName, sectionIndex = null, customData = 
         customData
     });
 };
- 
+
 /**
  * Track Pokemon-related events
  * @param {string} eventType - Type of Pokemon event (view, search, filter, etc.)
@@ -198,4 +212,47 @@ export const trackPokedexFilter = ({
     });
 };
 
+/**
+ * Track errors that occur in the application
+ * @param {Object} params
+ * @param {string} params.errorType - Type of error (e.g., 'pokemon_fetch', 'species_fetch', 'evolution_chain_fetch', 'pokedex_fetch', 'network', 'json_parse')
+ * @param {string} [params.pokemonName] - Name of the Pokemon (if applicable)
+ * @param {number} [params.statusCode] - HTTP status code (if applicable)
+ * @param {string} [params.statusText] - HTTP status text (if applicable)
+ * @param {string} [params.errorMessage] - Error message
+ * @param {string} [params.url] - URL that failed (if applicable)
+ * @param {string} [params.pageLocation] - Current page/route where error occurred (defaults to window.location.pathname)
+ * @param {Object} [params.additionalData] - Additional error context
+ */
+export const trackError = ({
+    errorType,
+    pokemonName,
+    statusCode,
+    statusText,
+    errorMessage,
+    url,
+    pageLocation,
+    additionalData = {}
+}) => {
+    // Get page location if not provided (client-side only)
+    const currentPage = pageLocation || (typeof window !== 'undefined' ? window.location.pathname : 'unknown');
 
+    // Use pokemonName as eventLabel when available for better filtering in analytics
+    // This allows you to filter by Pokemon name to see all events (views, errors, interactions) for that Pokemon
+    const eventLabel = pokemonName || errorType;
+
+    trackEvent('error_occurred', {
+        eventCategory: 'error',
+        eventLabel: eventLabel,
+        customData: {
+            error_type: errorType,
+            pokemon_name: pokemonName,
+            status_code: statusCode,
+            status_text: statusText,
+            error_message: errorMessage,
+            url: url,
+            page_location: currentPage,
+            ...additionalData
+        }
+    });
+};

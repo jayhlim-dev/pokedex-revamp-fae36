@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { trackSectionView, trackEvent } from 'utils/trackingUtils';
+import { trackSectionView, trackEvent, trackError } from 'utils/trackingUtils';
 import CheckDevice from './utils/CheckDevice';
 import clsx from 'clsx';
 
@@ -103,6 +103,18 @@ export default function RouteHistoryRedirect({ pokemonName }) {
                 customData: {
                     pokemon_name: pokemonName,
                     referrer: referrer
+                }
+            });
+
+            // Track as an error (could be 404, 500, or other API error)
+            // This captures server-side errors that couldn't be tracked during fetch
+            trackError({
+                errorType: 'pokemon_fetch_failed',
+                pokemonName,
+                pageLocation: `/pokemon/${pokemonName}`,
+                additionalData: {
+                    referrer: referrer,
+                    note: 'Error occurred during server-side fetch, exact error type unknown'
                 }
             });
         }

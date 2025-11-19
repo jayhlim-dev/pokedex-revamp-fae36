@@ -1,4 +1,4 @@
-# PokeHex Architecture Documentation
+# PokeVee Architecture Documentation
 
 > **Last Updated:** October 2025  
 > **Version:** 2.0  
@@ -21,7 +21,7 @@
 
 ## Overview
 
-PokeHex is a Next.js application that displays Pokemon data from the PokeAPI with advanced features including:
+PokeVee is a Next.js application that displays Pokemon data from the PokeAPI with advanced features including:
 
 - Progressive loading for large datasets
 - Two-tier caching system (memory + localStorage)

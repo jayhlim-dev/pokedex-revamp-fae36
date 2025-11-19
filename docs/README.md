@@ -1,8 +1,8 @@
-# PokeHex Documentation
+# PokeVee Documentation
 
-> Comprehensive documentation for the PokeHex Pokemon application
+> Comprehensive documentation for the PokeVee Pokemon application
 
-Welcome to the PokeHex documentation! This directory contains detailed documentation about the architecture, components, and systems used in this application.
+Welcome to the PokeVee documentation! This directory contains detailed documentation about the architecture, components, and systems used in this application.
 
 ## 📚 Documentation Index
 
@@ -438,7 +438,7 @@ function example() {
 
 ## 📜 License
 
-This documentation is part of the PokeHex project.
+This documentation is part of the PokeVee project.
 
 ---
 

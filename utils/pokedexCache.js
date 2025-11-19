@@ -1,5 +1,6 @@
 // Pokedex data cache utility
 // Provides caching for Pokedex region data to prevent unnecessary API calls
+import { trackError } from './trackingUtils';
 
 // In-memory cache for Pokedex data
 const pokedexCache = new Map();
@@ -111,6 +112,18 @@ export async function fetchPokedexWithCache(region) {
         });
 
         if (!res.ok) {
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'pokedex_fetch',
+                    statusCode: res.status,
+                    statusText: res.statusText,
+                    url: url,
+                    additionalData: {
+                        region: region
+                    }
+                });
+            }
             throw new Error(`Failed to fetch pokedex data for ${region}`);
         }
 
@@ -123,6 +136,20 @@ export async function fetchPokedexWithCache(region) {
         return { data: pokedexData, fromCache: false };
     } catch (error) {
         console.error(`Error fetching pokedex data for ${region}:`, error);
+
+        // Track error (client-side only)
+        if (typeof window !== 'undefined') {
+            trackError({
+                errorType: 'pokedex_fetch_error',
+                errorMessage: error.message || String(error),
+                url: url,
+                additionalData: {
+                    region: region,
+                    error_type_name: error.name || 'Error'
+                }
+            });
+        }
+
         return { data: null, fromCache: false, error: true };
     }
 }

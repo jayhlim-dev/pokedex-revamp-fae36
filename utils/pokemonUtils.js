@@ -1,6 +1,7 @@
 /**
  * Pokemon utility functions for data processing and formatting
  */
+import { trackError } from './trackingUtils';
 
 /**
  * Fetch with configurable timeout
@@ -93,6 +94,20 @@ export const getPokemonData = async (pokemonName) => {
                 error: fetchError.message || fetchError,
                 errorType: fetchError.name || 'NetworkError'
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'pokemon_fetch_network',
+                    pokemonName,
+                    errorMessage: fetchError.message || String(fetchError),
+                    url: pokemonUrl,
+                    additionalData: {
+                        error_type_name: fetchError.name || 'NetworkError'
+                    }
+                });
+            }
+
             return null;
         }
 
@@ -102,6 +117,18 @@ export const getPokemonData = async (pokemonName) => {
                 status: pokemonResponse.status,
                 statusText: pokemonResponse.statusText
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'pokemon_fetch',
+                    pokemonName,
+                    statusCode: pokemonResponse.status,
+                    statusText: pokemonResponse.statusText,
+                    url: pokemonUrl
+                });
+            }
+
             return null;
         }
 
@@ -113,6 +140,17 @@ export const getPokemonData = async (pokemonName) => {
                 pokemonName,
                 error: jsonError.message || jsonError
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'pokemon_json_parse',
+                    pokemonName,
+                    errorMessage: jsonError.message || String(jsonError),
+                    url: pokemonUrl
+                });
+            }
+
             return null;
         }
 
@@ -141,6 +179,20 @@ export const getPokemonData = async (pokemonName) => {
                 error: fetchError.message || fetchError,
                 errorType: fetchError.name || 'NetworkError'
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'species_fetch_network',
+                    pokemonName,
+                    errorMessage: fetchError.message || String(fetchError),
+                    url: speciesUrl,
+                    additionalData: {
+                        error_type_name: fetchError.name || 'NetworkError'
+                    }
+                });
+            }
+
             return null;
         }
 
@@ -151,6 +203,18 @@ export const getPokemonData = async (pokemonName) => {
                 status: speciesResponse.status,
                 statusText: speciesResponse.statusText
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'species_fetch',
+                    pokemonName,
+                    statusCode: speciesResponse.status,
+                    statusText: speciesResponse.statusText,
+                    url: speciesUrl
+                });
+            }
+
             return null;
         }
 
@@ -162,6 +226,17 @@ export const getPokemonData = async (pokemonName) => {
                 pokemonName,
                 error: jsonError.message || jsonError
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'species_json_parse',
+                    pokemonName,
+                    errorMessage: jsonError.message || String(jsonError),
+                    url: speciesUrl
+                });
+            }
+
             return null;
         }
 
@@ -173,6 +248,19 @@ export const getPokemonData = async (pokemonName) => {
             error: error.message || error,
             stack: error.stack
         });
+
+        // Track error (client-side only)
+        if (typeof window !== 'undefined') {
+            trackError({
+                errorType: 'pokemon_fetch_unexpected',
+                pokemonName,
+                errorMessage: error.message || String(error),
+                additionalData: {
+                    has_stack: !!error.stack
+                }
+            });
+        }
+
         return null;
     }
 };
@@ -203,6 +291,19 @@ export const getEvolutionChain = async (evolutionChainUrl) => {
                 error: fetchError.message || fetchError,
                 errorType: fetchError.name || 'NetworkError'
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'evolution_chain_fetch_network',
+                    errorMessage: fetchError.message || String(fetchError),
+                    url: evolutionChainUrl,
+                    additionalData: {
+                        error_type_name: fetchError.name || 'NetworkError'
+                    }
+                });
+            }
+
             return null;
         }
 
@@ -212,6 +313,17 @@ export const getEvolutionChain = async (evolutionChainUrl) => {
                 status: response.status,
                 statusText: response.statusText
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'evolution_chain_fetch',
+                    statusCode: response.status,
+                    statusText: response.statusText,
+                    url: evolutionChainUrl
+                });
+            }
+
             return null;
         }
 
@@ -222,6 +334,16 @@ export const getEvolutionChain = async (evolutionChainUrl) => {
                 url: evolutionChainUrl,
                 error: jsonError.message || jsonError
             });
+
+            // Track error (client-side only)
+            if (typeof window !== 'undefined') {
+                trackError({
+                    errorType: 'evolution_chain_json_parse',
+                    errorMessage: jsonError.message || String(jsonError),
+                    url: evolutionChainUrl
+                });
+            }
+
             return null;
         }
     } catch (error) {
@@ -231,6 +353,19 @@ export const getEvolutionChain = async (evolutionChainUrl) => {
             error: error.message || error,
             stack: error.stack
         });
+
+        // Track error (client-side only)
+        if (typeof window !== 'undefined') {
+            trackError({
+                errorType: 'evolution_chain_fetch_unexpected',
+                errorMessage: error.message || String(error),
+                url: evolutionChainUrl,
+                additionalData: {
+                    has_stack: !!error.stack
+                }
+            });
+        }
+
         return null;
     }
 };
