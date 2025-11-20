@@ -256,3 +256,35 @@ export const trackError = ({
         }
     });
 };
+
+/**
+ * Track SEO metadata generation and page metadata
+ * @param {Object} params
+ * @param {string} params.pokemonName - Name of the Pokemon
+ * @param {string} params.pageTitle - Generated page title
+ * @param {boolean} [params.hasImage] - Whether Pokemon image was found
+ * @param {boolean} [params.hasDescription] - Whether description was generated
+ * @param {string} [params.metadataSource] - Source of metadata ('generated', 'cached', 'fallback')
+ * @param {Object} [params.additionalData] - Additional metadata context
+ */
+export const trackSEOMetadata = ({
+    pokemonName,
+    pageTitle,
+    hasImage = false,
+    hasDescription = false,
+    metadataSource = 'generated',
+    additionalData = {}
+}) => {
+    trackEvent('seo_metadata_generated', {
+        eventCategory: 'seo',
+        eventLabel: pokemonName,
+        customData: {
+            pokemon_name: pokemonName,
+            page_title: pageTitle,
+            has_image: hasImage,
+            has_description: hasDescription,
+            metadata_source: metadataSource,
+            ...additionalData
+        }
+    });
+};

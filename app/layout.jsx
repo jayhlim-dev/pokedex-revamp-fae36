@@ -12,9 +12,76 @@ const pressStart = Press_Start_2P({
 
 export const metadata = {
     title: {
-        template: '%s | Netlify',
-        default: 'Netlify Starter'
-    }
+        template: '%s | PokeVee',
+        default: 'PokeVee - Modern Pokédex for Pokémon Trainers'
+    },
+    description:
+        "It's still a Pokédex just not how they remember it. PokeVee is a fan-made modern Pokédex powered by PokéAPI. Explore Pokémon stats, types, and information in a beautiful, interactive experience.",
+    keywords: [
+        'pokemon',
+        'pokedex',
+        'pokemon go',
+        'pokemon database',
+        'pokemon stats',
+        'pokemon types',
+        'pokemon information',
+        'pokemon trainer',
+        'pokemon fan',
+        'pokeapi',
+        'pokemon cards',
+        'pokemon data'
+    ],
+    authors: [{ name: 'Jason', url: 'https://pokevee.com' }],
+    creator: 'Jason',
+    publisher: 'PokeVee',
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1
+        }
+    },
+    openGraph: {
+        type: 'website',
+        locale: 'en_US',
+        url: 'https://pokevee.com',
+        siteName: 'PokeVee',
+        title: 'PokeVee - Modern Pokédex for Pokémon Trainers',
+        description:
+            "It's still a Pokédex just not how they remember it. Explore Pokémon stats, types, and information in a beautiful, interactive experience.",
+        images: [
+            {
+                url: '/images/logo/main-gengar-char.png',
+                width: 1200,
+                height: 630,
+                alt: 'PokeVee - Modern Pokédex'
+            }
+        ]
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'PokeVee - Modern Pokédex for Pokémon Trainers',
+        description:
+            "It's still a Pokédex just not how they remember it. Explore Pokémon in a beautiful, interactive experience.",
+        images: ['/images/logo/main-gengar-char.png']
+    },
+    icons: {
+        icon: [
+            { url: '/browser-logo.png', sizes: 'any' },
+            { url: '/images/logo/main-gengar-char.png', sizes: 'any' }
+        ],
+        apple: [{ url: '/browser-logo.png', sizes: '180x180' }]
+    },
+    manifest: '/manifest.json',
+    metadataBase: new URL('https://pokevee.com'),
+    alternates: {
+        canonical: '/'
+    },
+    category: 'gaming'
 };
 
 export default function RootLayout({ children }) {
@@ -22,10 +89,7 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <head>
                 {/* Google Analytics */}
-                <Script
-                    src="https://www.googletagmanager.com/gtag/js?id=G-YVQ7XEX0QM"
-                    strategy="afterInteractive"
-                />
+                <Script src="https://www.googletagmanager.com/gtag/js?id=G-YVQ7XEX0QM" strategy="afterInteractive" />
                 <Script id="google-analytics" strategy="afterInteractive">
                     {`
                         window.dataLayer = window.dataLayer || [];
@@ -34,8 +98,6 @@ export default function RootLayout({ children }) {
                         gtag('config', 'G-YVQ7XEX0QM');
                     `}
                 </Script>
-
-                <link rel="icon" href="/favicon.svg" sizes="any" />
             </head>
             <body className={`${pressStart.className} antialiased text-white bg-blue-900 font-sans`}>
                 <div className="flex flex-col min-h-screen bg-noise">

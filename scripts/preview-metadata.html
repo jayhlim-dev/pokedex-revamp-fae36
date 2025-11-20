@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadata Preview Tool - Localhost</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .input-group {
+            margin-bottom: 30px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .preview-section {
+            margin-top: 30px;
+        }
+        .preview-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+        .preview-card h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 18px;
+        }
+        .meta-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        .meta-item strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .meta-item span {
+            color: #666;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        .social-preview {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+            max-width: 500px;
+        }
+        .social-preview img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .social-preview h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .social-preview p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .error {
+            background: #fee;
+            border-left-color: #f44;
+            color: #c33;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Metadata Preview Tool</h1>
+            <p>Test SEO metadata for localhost Pokemon pages</p>
+        </div>
+        <div class="content">
+            <div class="input-group">
+                <label for="pokemonName">Pokemon Name</label>
+                <input 
+                    type="text" 
+                    id="pokemonName" 
+                    placeholder="e.g., pikachu, charizard, bulbasaur"
+                    value="pikachu"
+                >
+            </div>
+            <div class="input-group">
+                <label for="baseUrl">Base URL (default: http://localhost:3000)</label>
+                <input 
+                    type="text" 
+                    id="baseUrl" 
+                    placeholder="http://localhost:3000"
+                    value="http://localhost:3000"
+                >
+            </div>
+            <div class="button-group">
+                <button id="fetchBtn" onclick="fetchMetadata()">Fetch Metadata</button>
+                <button onclick="testMultiple()">Test Multiple</button>
+            </div>
+            
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchMetadata() {
+            const pokemonName = document.getElementById('pokemonName').value.trim();
+            const baseUrl = document.getElementById('baseUrl').value.trim() || 'http://localhost:3000';
+            const resultsDiv = document.getElementById('results');
+            const fetchBtn = document.getElementById('fetchBtn');
+            
+            if (!pokemonName) {
+                alert('Please enter a Pokemon name');
+                return;
+            }
+            
+            fetchBtn.disabled = true;
+            fetchBtn.textContent = 'Loading...';
+            resultsDiv.innerHTML = '<div class="loading">🔄 Fetching metadata...</div>';
+            
+            try {
+                const url = `${baseUrl}/pokemon/${pokemonName}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Extract metadata
+                const title = doc.querySelector('title')?.textContent || 'Not found';
+                const description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 'Not found';
+                const ogTitle = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 'Not found';
+                const ogDescription = doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || 'Not found';
+                const ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || 'Not found';
+                const ogUrl = doc.querySelector('meta[property="og:url"]')?.getAttribute('content') || 'Not found';
+                const twitterCard = doc.querySelector('meta[name="twitter:card"]')?.getAttribute('content') || 'Not found';
+                const twitterTitle = doc.querySelector('meta[name="twitter:title"]')?.getAttribute('content') || 'Not found';
+                const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href') || 'Not found';
+                
+                // Display results
+                resultsDiv.innerHTML = `
+                    <div class="preview-section">
+                        <div class="preview-card">
+                            <h3>📄 Basic Metadata</h3>
+                            <div class="meta-item">
+                                <strong>Title:</strong>
+                                <span>${title}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Description:</strong>
+                                <span>${description}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Canonical URL:</strong>
+                                <span>${canonical}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-card">
+                            <h3>🔗 Open Graph (Facebook, LinkedIn)</h3>
+                            <div class="meta-item">
+                                <strong>og:title:</strong>
+                                <span>${ogTitle}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>og:description:</strong>
+                                <span>${ogDescription}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>og:image:</strong>
+                                <span>${ogImage}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>og:url:</strong>
+                                <span>${ogUrl}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-card">
+                            <h3>🐦 Twitter Card</h3>
+                            <div class="meta-item">
+                                <strong>twitter:card:</strong>
+                                <span>${twitterCard}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>twitter:title:</strong>
+                                <span>${twitterTitle}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-card">
+                            <h3>📱 Social Media Preview</h3>
+                            <div class="social-preview">
+                                ${ogImage !== 'Not found' ? `<img src="${ogImage}" alt="Preview" onerror="this.style.display='none'">` : ''}
+                                <h4>${ogTitle}</h4>
+                                <p>${ogDescription}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="preview-card error">
+                        <h3>❌ Error</h3>
+                        <p><strong>Failed to fetch metadata:</strong></p>
+                        <p>${error.message}</p>
+                        <p style="margin-top: 10px; font-size: 14px;">
+                            💡 Make sure:<br>
+                            • Your dev server is running<br>
+                            • The URL is correct (${baseUrl}/pokemon/${pokemonName})<br>
+                            • CORS is enabled (if testing from file://)
+                        </p>
+                    </div>
+                `;
+            } finally {
+                fetchBtn.disabled = false;
+                fetchBtn.textContent = 'Fetch Metadata';
+            }
+        }
+        
+        async function testMultiple() {
+            const pokemonList = ['pikachu', 'charizard', 'bulbasaur', 'squirtle'];
+            const baseUrl = document.getElementById('baseUrl').value.trim() || 'http://localhost:3000';
+            const resultsDiv = document.getElementById('results');
+            
+            resultsDiv.innerHTML = '<div class="loading">🔄 Testing multiple Pokemon...</div>';
+            
+            let results = '<div class="preview-section"><h3>📊 Test Results</h3>';
+            
+            for (const pokemon of pokemonList) {
+                try {
+                    const url = `${baseUrl}/pokemon/${pokemon}`;
+                    const response = await fetch(url);
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const title = doc.querySelector('title')?.textContent || 'Not found';
+                    
+                    results += `
+                        <div class="preview-card">
+                            <strong>${pokemon}:</strong> ${title}
+                        </div>
+                    `;
+                } catch (error) {
+                    results += `
+                        <div class="preview-card error">
+                            <strong>${pokemon}:</strong> ❌ ${error.message}
+                        </div>
+                    `;
+                }
+            }
+            
+            results += '</div>';
+            resultsDiv.innerHTML = results;
+        }
+        
+        // Allow Enter key to trigger fetch
+        document.getElementById('pokemonName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                fetchMetadata();
+            }
+        });
+    </script>
+</body>
+</html>
+
