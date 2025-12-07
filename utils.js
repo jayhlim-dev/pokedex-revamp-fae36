@@ -1,4 +1,4 @@
-// Utility functions for PokeVee application
+// Utility functions for PokeEon application
 
 /*
 Get the actual size of a resource downloaded by the browser (e.g. an image) in bytes.

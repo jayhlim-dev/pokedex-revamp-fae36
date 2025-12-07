@@ -1,9 +1,5 @@
 @import 'tailwindcss';
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'); */
-/* Remove Inter import */
-/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
-
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+/* Font is loaded via next/font/google in layout.jsx - no external URL imports needed */
 
 @theme {
     --background-image-noise: linear-gradient(

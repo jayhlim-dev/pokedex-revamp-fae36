@@ -1,6 +1,6 @@
 # Documentation Guide
 
-> Your complete guide to all PokeVee documentation
+> Your complete guide to all PokeEon documentation
 
 ## 📚 What We've Created
 
@@ -438,7 +438,7 @@ You now have **professional-grade documentation** that:
 ### Documentation Tree
 
 ```
-📚 PokeVee Documentation
+📚 PokeEon Documentation
 │
 ├── 📖 docs/README.md
 │   └── Start here for everything!
@@ -499,4 +499,4 @@ For questions about documentation, refer to `docs/BEST_PRACTICES.md` or open an 
 
 **Guide Version:** 1.0  
 **Created:** October 2025  
-**Covers:** All PokeVee documentation (v2.0)
+**Covers:** All PokeEon documentation (v2.0)

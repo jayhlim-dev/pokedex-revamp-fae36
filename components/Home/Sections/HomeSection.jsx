@@ -30,7 +30,7 @@ export default function HomeSection({ index = 0, userDevice }) {
     }, [index]);
 
     const section = {
-        title: 'PokeVee',
+        title: 'PokeEon',
         desc: 'It`s still a Pokédex just not how they remember it',
         background: '/images/home/home-background.png',
         background_xl: '/images/home/xl/home-background-xl.png'

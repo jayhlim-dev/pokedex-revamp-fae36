@@ -7,12 +7,12 @@ import { trackSectionView } from 'utils/trackingUtils';
 export default function MobileAboutUsSection({ index = 4 }) {
     const section = {
         title: 'Built By Trainers, For Trainers',
-        desc: "Hi, I'm Jason the developer behind this project. PokeVee is a fan-made Pokedex, powered by data from the amazing PokéAPI. All Pokémon names, stats, and images used here are publicly provided through their API",
+        desc: "Hi, I'm Jason the developer behind this project. PokeEon is a fan-made Pokedex, powered by data from the amazing PokéAPI. All Pokémon names, stats, and images used here are publicly provided through their API",
         secondary_desc:
             'This site is created purely for fun and educational purposes. Im just a huge fan of Pokémon especially Pokémon GO. Fun fact: I once did 45 Azelf raids just to get a shiny Azelf and yes, I finally got it.',
         tertiary_desc:
             'All design, code, and presentation are my own original work. Thanks for visiting I hope you enjoy the experience as much as I enjoyed building it! This is a fan project and is not affiliated with, endorsed, or sponsored by Nintendo, Game Freak, or The Pokémon Company.',
-        footer: '© 2025 PokeVee by Jason. All rights reserved. This fan project is powered by PokéAPI.'
+        footer: '© 2025 PokeEon by Jason. All rights reserved. This fan project is powered by PokéAPI.'
     };
 
     useEffect(() => {

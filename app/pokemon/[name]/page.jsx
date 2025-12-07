@@ -18,8 +18,8 @@ export async function generateMetadata({ params }) {
 
     if (!pokemonName) {
         return {
-            title: 'Pokemon Not Found | PokeVee',
-            description: 'Pokemon not found on PokeVee'
+            title: 'Pokemon Not Found | PokeEon',
+            description: 'Pokemon not found on PokeEon'
         };
     }
 
@@ -28,8 +28,8 @@ export async function generateMetadata({ params }) {
 
         if (!data) {
             return {
-                title: `${capitalizeName(pokemonName)} | PokeVee`,
-                description: `View ${capitalizeName(pokemonName)} details on PokeVee`
+                title: `${capitalizeName(pokemonName)} | PokeEon`,
+                description: `View ${capitalizeName(pokemonName)} details on PokeEon`
             };
         }
 
@@ -56,10 +56,10 @@ export async function generateMetadata({ params }) {
             ? `${capitalizedName} ${pokedexNumber}${typeInfo}. ${flavorText.substring(0, 120)}${
                   flavorText.length > 120 ? '...' : ''
               }`
-            : `View ${capitalizedName} ${pokedexNumber}${typeInfo} details, stats, types, and evolution chain on PokeVee.`;
+            : `View ${capitalizedName} ${pokedexNumber}${typeInfo} details, stats, types, and evolution chain on PokeEon.`;
 
         return {
-            title: `${capitalizedName} ${pokedexNumber} | PokeVee`,
+            title: `${capitalizedName} ${pokedexNumber} | PokeEon`,
             description: description,
             keywords: [
                 capitalizedName.toLowerCase(),
@@ -72,7 +72,7 @@ export async function generateMetadata({ params }) {
                 'pokemon evolution'
             ].filter(Boolean),
             openGraph: {
-                title: `${capitalizedName} ${pokedexNumber} | PokeVee`,
+                title: `${capitalizedName} ${pokedexNumber} | PokeEon`,
                 description: description,
                 type: 'website',
                 images: [
@@ -83,11 +83,11 @@ export async function generateMetadata({ params }) {
                         alt: `${capitalizedName} ${pokedexNumber}`
                     }
                 ],
-                siteName: 'PokeVee'
+                siteName: 'PokeEon'
             },
             twitter: {
                 card: 'summary_large_image',
-                title: `${capitalizedName} ${pokedexNumber} | PokeVee`,
+                title: `${capitalizedName} ${pokedexNumber} | PokeEon`,
                 description: description,
                 images: [pokemonImage]
             },
@@ -98,8 +98,8 @@ export async function generateMetadata({ params }) {
     } catch (error) {
         console.error('Error generating metadata:', error);
         return {
-            title: `${capitalizeName(pokemonName)} | PokeVee`,
-            description: `View ${capitalizeName(pokemonName)} details on PokeVee`
+            title: `${capitalizeName(pokemonName)} | PokeEon`,
+            description: `View ${capitalizeName(pokemonName)} details on PokeEon`
         };
     }
 }

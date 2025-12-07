@@ -23,7 +23,7 @@
 
 ### 3. **Browser Tab Title**
 
-- Simply look at the browser tab - it should show: **"Pikachu #025 | PokeVee"**
+- Simply look at the browser tab - it should show: **"Pikachu #025 | PokeEon"**
 
 ### 4. **Local Testing Tools** (Works with localhost)
 

@@ -4,7 +4,7 @@
 
 1. **Start your dev server**: `npm run dev`
 2. **Visit**: `http://localhost:3000/pokemon/pikachu`
-3. **Check browser tab**: Should show "Pikachu #025 | PokeVee" ✅
+3. **Check browser tab**: Should show "Pikachu #025 | PokeEon" ✅
 4. **Right-click → Inspect → Elements → `<head>`**: See all metadata tags ✅
 
 ## 📋 Testing Checklist
@@ -44,7 +44,7 @@
 ## 🔍 What Gets Tracked
 
 When you visit `/pokemon/pikachu`:
-- ✅ Page title: "Pikachu #025 | PokeVee"
+- ✅ Page title: "Pikachu #025 | PokeEon"
 - ✅ Meta description with Pokemon info
 - ✅ Open Graph image (Pokemon artwork)
 - ✅ Twitter Card preview

@@ -12,11 +12,11 @@ const pressStart = Press_Start_2P({
 
 export const metadata = {
     title: {
-        template: '%s | PokeVee',
-        default: 'PokeVee - Modern Pokédex for Pokémon Trainers'
+        template: '%s | PokeEon',
+        default: 'PokeEon - Modern Pokédex for Pokémon Trainers'
     },
     description:
-        "It's still a Pokédex just not how they remember it. PokeVee is a fan-made modern Pokédex powered by PokéAPI. Explore Pokémon stats, types, and information in a beautiful, interactive experience.",
+        "It's still a Pokédex just not how they remember it. PokeEon is a fan-made modern Pokédex powered by PokéAPI. Explore Pokémon stats, types, and information in a beautiful, interactive experience.",
     keywords: [
         'pokemon',
         'pokedex',
@@ -31,9 +31,9 @@ export const metadata = {
         'pokemon cards',
         'pokemon data'
     ],
-    authors: [{ name: 'Jason', url: 'https://pokevee.com' }],
+    authors: [{ name: 'Jason', url: 'https://pokeeon.com' }],
     creator: 'Jason',
-    publisher: 'PokeVee',
+    publisher: 'PokeEon',
     robots: {
         index: true,
         follow: true,
@@ -48,9 +48,9 @@ export const metadata = {
     openGraph: {
         type: 'website',
         locale: 'en_US',
-        url: 'https://pokevee.com',
-        siteName: 'PokeVee',
-        title: 'PokeVee - Modern Pokédex for Pokémon Trainers',
+        url: 'https://pokeeon.com',
+        siteName: 'PokeEon',
+        title: 'PokeEon - Modern Pokédex for Pokémon Trainers',
         description:
             "It's still a Pokédex just not how they remember it. Explore Pokémon stats, types, and information in a beautiful, interactive experience.",
         images: [
@@ -58,13 +58,13 @@ export const metadata = {
                 url: '/images/logo/main-gengar-char.png',
                 width: 1200,
                 height: 630,
-                alt: 'PokeVee - Modern Pokédex'
+                alt: 'PokeEon - Modern Pokédex'
             }
         ]
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'PokeVee - Modern Pokédex for Pokémon Trainers',
+        title: 'PokeEon - Modern Pokédex for Pokémon Trainers',
         description:
             "It's still a Pokédex just not how they remember it. Explore Pokémon in a beautiful, interactive experience.",
         images: ['/images/logo/main-gengar-char.png']
@@ -77,7 +77,7 @@ export const metadata = {
         apple: [{ url: '/browser-logo.png', sizes: '180x180' }]
     },
     manifest: '/manifest.json',
-    metadataBase: new URL('https://pokevee.com'),
+    metadataBase: new URL('https://pokeeon.com'),
     alternates: {
         canonical: '/'
     },

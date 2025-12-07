@@ -1,8 +1,8 @@
-# PokeVee Documentation
+# PokeEon Documentation
 
-> Comprehensive documentation for the PokeVee Pokemon application
+> Comprehensive documentation for the PokeEon Pokemon application
 
-Welcome to the PokeVee documentation! This directory contains detailed documentation about the architecture, components, and systems used in this application.
+Welcome to the PokeEon documentation! This directory contains detailed documentation about the architecture, components, and systems used in this application.
 
 ## 📚 Documentation Index
 
@@ -438,7 +438,7 @@ function example() {
 
 ## 📜 License
 
-This documentation is part of the PokeVee project.
+This documentation is part of the PokeEon project.
 
 ---
 
