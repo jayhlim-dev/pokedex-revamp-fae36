@@ -16,7 +16,7 @@ export const metadata = {
         default: 'PokeEon - Modern Pokédex for Pokémon Trainers'
     },
     description:
-        "It's still a Pokédex just not how they remember it. PokeEon is a fan-made modern Pokédex powered by PokéAPI. Explore Pokémon stats, types, and information in a beautiful, interactive experience.",
+        'Discover PokeEon, the modern Pokédex for Pokémon Trainers. Explore stats, types, and information for Kanto, Hoenn, Sinnoh, Alola, and more regions.',
     keywords: [
         'pokemon',
         'pokedex',

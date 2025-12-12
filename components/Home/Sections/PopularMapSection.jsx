@@ -1,6 +1,7 @@
 import CheckDevice from 'components/utils/CheckDevice';
 import PokemonBag from 'public/images/home/pokemon-bag.png';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { trackSectionView } from 'utils/trackingUtils';
 export default function PopularMapSection({ index = 2 }) {
@@ -48,16 +49,17 @@ export default function PopularMapSection({ index = 2 }) {
                 <div className="flex flex-col gap-20 z-10 justify-center h-full items-center">
                     <div className="flex flex-col gap-4 items-center justify-center">
                         <div className="flex flex-col">
-                            <h1 className="text-2xl">{section.title}</h1>
+                            <div className="text-2xl">{section.title}</div>
                         </div>
                         <p className="text-xs max-w-2xl">{section.desc}</p>
                     </div>
 
                     <div className="w-full flex gap-8">
                         {mapImage.map((map) => (
-                            <div
+                            <Link
+                                href={`/pokedex/${map.name.toLowerCase()}`}
                                 key={map.name}
-                                className="flex flex-col items-center justify-center border-white rounded-[19px] border-2 relative"
+                                className="flex flex-col items-center justify-center border-white rounded-[19px] border-2 relative hover:border-primary transition-colors no-underline"
                             >
                                 <div className="absolute bottom-0 left-0 w-full bg-black/40 rounded-[19px] flex items-center justify-center h-[190px] flex-col gap-2 px-8">
                                     <p className="text-white uppercase text-center text-xs">{map.name}</p>
@@ -75,7 +77,7 @@ export default function PopularMapSection({ index = 2 }) {
                                         key={map.name}
                                     />
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
 

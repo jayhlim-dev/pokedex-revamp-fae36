@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import PokemonLogo from 'public/images/logo/main-gengar-char.png';
 import Cloud1 from 'public/images/cloud1.png';
 import Cloud2 from 'public/images/cloud2.png';
@@ -8,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { trackButtonClick, trackSectionView } from 'utils/trackingUtils';
 
 export default function HomeSection({ index = 0, userDevice }) {
-    const router = useRouter();
     const [cloudPositions, setCloudPositions] = useState([]);
 
     useEffect(() => {
@@ -29,20 +27,12 @@ export default function HomeSection({ index = 0, userDevice }) {
         setCloudPositions(positions);
     }, [index]);
 
-    const section = {
-        title: 'PokeEon',
-        desc: 'It`s still a Pokédex just not how they remember it',
-        background: '/images/home/home-background.png',
-        background_xl: '/images/home/xl/home-background-xl.png'
-    };
-
-    const handlePokedexClick = () => {
-        // Track the button click
-        trackButtonClick('Explore the Pokédex', '/pokedex', 'Home');
-
-        // Navigate to pokedex
-        router.push('/pokedex');
-    };
+    // const section = {
+    //     title: 'PokeEon',
+    //     desc: 'It`s still a Pokédex just not how they remember it',
+    //     background: '/images/home/home-background.png',
+    //     background_xl: '/images/home/xl/home-background-xl.png'
+    // };
 
     return (
         <div className="relative capitalize">
@@ -209,7 +199,7 @@ export default function HomeSection({ index = 0, userDevice }) {
                     } `}
                 >
                     <div className="flex flex-col gap-2 z-20">
-                        <h1 className="text-7xl font-bold mb-4">{section.title}</h1>
+                        <h1 className="text-7xl font-bold mb-4">PokeEon</h1>
                         <div className="flex flex-col gap-2">
                             <p className="text-xs">It`s still a Pokédex</p>
                             <p className="text-xs">just not how they remember it</p>
@@ -228,9 +218,13 @@ export default function HomeSection({ index = 0, userDevice }) {
                             />
                         </div>
 
-                        <div className="cursor-pointer bg-black/50 px-16 rounded-sm py-3" onClick={handlePokedexClick}>
+                        <Link
+                            href="/pokedex"
+                            onClick={() => trackButtonClick('Explore the Pokédex', '/pokedex', 'Home')}
+                            className="cursor-pointer bg-black/50 px-16 rounded-sm py-3 hover:bg-black/70 transition-colors no-underline"
+                        >
                             <p className="text-3xs">Explore the Pokédex</p>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>

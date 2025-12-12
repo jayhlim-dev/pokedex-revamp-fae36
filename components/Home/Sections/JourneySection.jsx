@@ -29,7 +29,7 @@ export default function JourneySection({ index = 1 }) {
                 <div className="flex flex-col gap-20 z-10 justify-center h-full items-center">
                     <div className="flex flex-col gap-4 items-center justify-center">
                         <div className="flex flex-col">
-                            <h1 className="text-2xl">Every Journey Begins with a Choice</h1>
+                            <div className="text-2xl">Every Journey Begins with a Choice</div>
                         </div>
                         <p className="text-xs max-w-2xl">{section.desc}</p>
                     </div>

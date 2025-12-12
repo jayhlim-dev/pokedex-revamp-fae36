@@ -1,5 +1,6 @@
 import CheckDevice from 'components/utils/CheckDevice';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { trackSectionView } from 'utils/trackingUtils';
 export default function PopularPokemonSection({ index = 3 }) {
@@ -19,25 +20,25 @@ export default function PopularPokemonSection({ index = 3 }) {
     const popularPokemon = [
         {
             map_name: 'Kanto',
-            top_pokemon: ['Charizard', 'Gengar', 'Bulbasaur', 'Pikachu'],
+            top_pokemon: ['Charizard', 'Gengar', 'Pikachu'],
             desc: 'Kanto began the legend. Charizard fire roared, Gengar grin haunted, and Pikachu spark lit our hearts.',
             image: '/images/home/popular/kanto.png'
         },
         {
             map_name: 'Hoenn',
-            top_pokemon: ['Turtwig', 'Bidoof', 'Kecleon', 'Shinx'],
+            top_pokemon: ['Turtwig', 'Bidoof', 'Shinx'],
             desc: 'Hoenn balanced power and grace. Rayquaza soared, Gardevoir shined, and Sceptile with Flygon fought beautifully.',
             image: '/images/home/popular/hoenn.png'
         },
         {
             map_name: 'Sinnoh',
-            top_pokemon: ['Lucario', 'Garchomp', 'Luxray', 'Piplup'],
+            top_pokemon: ['Lucario', 'Garchomp', 'Piplup'],
             desc: 'Sinnoh shaped destiny. Lucario stood brave, Garchomp struck fierce, and Luxray’s glare sparked awe.',
             image: '/images/home/popular/sinnoh.png'
         },
         {
             map_name: 'Alola',
-            top_pokemon: ['Mimikyu', 'Rowlet', 'Decidueye', 'Lycanroc'],
+            top_pokemon: ['Mimikyu', 'Rowlet', 'Lycanroc'],
             desc: 'Alola glowed with spirit. Mimikyu hid its heart, Rowlet charmed, and Lycanroc howled with passion.',
             image: '/images/home/popular/alola.png'
         }
@@ -52,7 +53,7 @@ export default function PopularPokemonSection({ index = 3 }) {
                 <div className="flex flex-col gap-20 z-10 justify-center h-full items-center">
                     <div className="flex flex-col gap-4 items-center justify-center">
                         <div className="flex flex-col">
-                            <h1 className="text-2xl">{section.title}</h1>
+                            <h2 className="text-2xl">{section.title}</h2>
                         </div>
                         <p className="text-xs max-w-2xl">{section.desc}</p>
                     </div>
@@ -65,13 +66,23 @@ export default function PopularPokemonSection({ index = 3 }) {
                             >
                                 <div className="flex flex-col">
                                     <div className="flex items-center gap-6 border-b-white border-b-1 px-4 py-2">
-                                        <h1 className="text-lg uppercase">{pokemon.map_name}</h1>
+                                        <h3 className="text-lg uppercase">{pokemon.map_name}</h3>
 
                                         <div className="flex flex-col justify-start items-start">
-                                            <h1 className="text-3xs">Top Pokémon:</h1>
-                                            <p className="text-4xs leading-16 -tracking-tighter  uppercase text-start">
-                                                {pokemon.top_pokemon.join(', ')}
-                                            </p>
+                                            <div className="text-3xs">Top Pokémon:</div>
+                                            <div className="text-4xs leading-16 -tracking-tighter uppercase text-start flex">
+                                                {pokemon.top_pokemon.map((name, idx) => (
+                                                    <span key={name}>
+                                                        <Link
+                                                            href={`/pokemon/${name.toLowerCase()}`}
+                                                            className="hover:text-primary transition-colors no-underline"
+                                                        >
+                                                            {name}
+                                                        </Link>
+                                                        {idx < pokemon.top_pokemon.length - 1 && ', '}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="w-full !min-w-[283px] max-w-[13vw]">
