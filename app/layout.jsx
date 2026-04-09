@@ -84,10 +84,22 @@ export const metadata = {
     category: 'gaming'
 };
 
+const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Pokeeon',
+    alternateName: ['pokeeon.com'],
+    url: 'https://pokeeon.com/'
+};
+
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+                />
                 {/* Google Analytics */}
                 <Script src="https://www.googletagmanager.com/gtag/js?id=G-YVQ7XEX0QM" strategy="afterInteractive" />
                 <Script id="google-analytics" strategy="afterInteractive">
